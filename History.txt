@@ -1,3 +1,7 @@
+== 0.2.4 2008-02-06
+
+* Symlink memcached.yml in on deploy if you enable the callback
+
 == 0.2.3 2008-02-01
 
 * Make log tailing environmentally aware.  Also add tasks to tail mongrel logs
