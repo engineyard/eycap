@@ -1,3 +1,11 @@
+== 0.2.6 2008-02-14
+
+* Make mongrel restarts only apply to mongrel slices
+
+== 0.2.5 2008-02-11
+
+* Added db cloning task
+
 == 0.2.4 2008-02-06
 
 * Symlink memcached.yml in on deploy if you enable the callback

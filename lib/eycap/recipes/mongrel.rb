@@ -5,7 +5,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     Start Mongrel processes on the app server.  This uses the :use_sudo variable to determine whether to use sudo or not. By default, :use_sudo is
     set to true.
     DESC
-    task :start, :roles => :app do
+    task :start, :roles => :app, :only => {:mongrel => true} do
       sudo "/usr/bin/monit start all -g #{monit_group}"
     end
 
@@ -13,7 +13,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     Restart the Mongrel processes on the app server by starting and stopping the cluster. This uses the :use_sudo
     variable to determine whether to use sudo or not. By default, :use_sudo is set to true.
     DESC
-    task :restart, :roles => :app do
+    task :restart, :roles => :app, :only => {:mongrel => true} do
       sudo "/usr/bin/monit restart all -g #{monit_group}"
     end
 
@@ -22,7 +22,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     variable to determine whether to use sudo or not. By default, :use_sudo is
     set to true.
     DESC
-    task :stop, :roles => :app do
+    task :stop, :roles => :app, :only => {:mongrel => true} do
       sudo "/usr/bin/monit stop all -g #{monit_group}"
     end
   
