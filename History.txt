@@ -1,3 +1,7 @@
+== 0.2.8 2008-02-14
+
+* Add tasks for solr starting,stopping, and log tailing.
+
 == 0.2.6 2008-02-14
 
 * Make mongrel restarts only apply to mongrel slices
