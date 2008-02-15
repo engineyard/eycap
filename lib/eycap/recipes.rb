@@ -7,6 +7,7 @@ require 'eycap/recipes/deploy'
 require 'eycap/recipes/sphinx'
 require 'eycap/recipes/backgroundrb'
 require 'eycap/recipes/memcached'
+require 'eycap/recipes/solr'
 
 Capistrano::Configuration.instance(:must_exist).load do
   
