@@ -9,6 +9,7 @@ require 'eycap/recipes/backgroundrb'
 require 'eycap/recipes/memcached'
 require 'eycap/recipes/solr'
 require 'eycap/recipes/monit'
+require 'eycap/recipes/tomcat'
 
 Capistrano::Configuration.instance(:must_exist).load do
   
