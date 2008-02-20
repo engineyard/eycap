@@ -1,7 +1,11 @@
-== 0.2.8 2008-02-14
+== HEAD
+
+== 0.2.8 2008-02-20
 
 * Add tasks for solr starting,stopping, and log tailing.
 * Add monit namespace and make appservers php/merb compatible
+* Make ultrasphinx symlinking a little smarter
+* Add tomcat tasks for spongecell
 
 == 0.2.6 2008-02-14
 
