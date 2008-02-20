@@ -8,6 +8,7 @@ require 'eycap/recipes/sphinx'
 require 'eycap/recipes/backgroundrb'
 require 'eycap/recipes/memcached'
 require 'eycap/recipes/solr'
+require 'eycap/recipes/monit'
 
 Capistrano::Configuration.instance(:must_exist).load do
   

@@ -1,6 +1,7 @@
 == 0.2.8 2008-02-14
 
 * Add tasks for solr starting,stopping, and log tailing.
+* Add monit namespace and make appservers php/merb compatible
 
 == 0.2.6 2008-02-14
 
