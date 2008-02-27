@@ -2,7 +2,7 @@ Capistrano::Configuration.instance(:must_exist).load do
 
   namespace :sphinx do
     desc "After update_code you want to configure, then reindex"
-    task :configure, :roles => :app, :only => {:sphinx => true} do
+    task :configure, :roles => :app, :only => {:sphinx => true}, :except => {:no_release => true} do
       run "/engineyard/bin/searchd #{application} configure"
     end
 

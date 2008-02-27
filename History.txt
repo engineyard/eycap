@@ -1,5 +1,7 @@
 == HEAD
 
+* Fix a bug with ultrasphinx:configure running on multiple hosts
+
 == 0.2.8 2008-02-20
 
 * Add tasks for solr starting,stopping, and log tailing.
