@@ -1,4 +1,6 @@
-== HEAD
+==HEAD
+
+== 0.2.9 2008-02-27
 
 * Fix a bug with ultrasphinx:configure running on multiple hosts
 
