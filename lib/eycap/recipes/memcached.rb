@@ -13,7 +13,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       sudo "/etc/init.d/memcached restart"
     end        
     desc "Symlink the memcached.yml file into place if it exists"
-    task :symlink_configs, :roles => :app, :only => {:memcached => true } do
+    task :symlink_configs, :roles => :app, :only => {:memcached => true }, :except => { :no_release => true } do
       run "if [ -f #{shared_path}/config/memcached.yml ]; then ln -nfs #{shared_path}/config/memcached.yml #{release_path}/config/memcached.yml; fi"
     end
   end
