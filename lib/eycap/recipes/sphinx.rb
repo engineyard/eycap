@@ -2,7 +2,7 @@ Capistrano::Configuration.instance(:must_exist).load do
 
   namespace :sphinx do
     desc "After update_code you want to configure, then reindex"
-    task :configure, :roles => :app, :only => {:sphinx => true} do
+    task :configure, :roles => :app, :only => {:sphinx => true}, :except => {:no_release => true} do
       run "/engineyard/bin/searchd #{application} configure"
     end
 
@@ -25,7 +25,8 @@ Capistrano::Configuration.instance(:must_exist).load do
     end        
 
     desc "Symlink the sphinx config file"
-    task :symlink, :roles => :app, :only => {:sphinx => true} do
+    task :symlink, :roles => :app, :only => {:sphinx => true}, :except => {:no_release => true} do
+      run "if [ -d #{release_path}/config/ultrasphinx ]; then mv #{release_path}/config/ultrasphinx #{release_path}/config/ultrasphinx.bak; fi"
       run "ln -nfs #{shared_path}/config/ultrasphinx #{release_path}/config/ultrasphinx"
     end
   end

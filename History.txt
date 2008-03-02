@@ -2,9 +2,16 @@
 
 * Symlink memcached.yml only on :memcached => true, except :no_release => true
 
-== 0.2.8 2008-02-14
+== 0.2.9 2008-02-27
+
+* Fix a bug with ultrasphinx:configure running on multiple hosts
+
+== 0.2.8 2008-02-20
 
 * Add tasks for solr starting,stopping, and log tailing.
+* Add monit namespace and make appservers php/merb compatible
+* Make ultrasphinx symlinking a little smarter
+* Add tomcat tasks for spongecell
 
 == 0.2.6 2008-02-14
 

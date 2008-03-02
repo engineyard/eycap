@@ -14,10 +14,12 @@ lib/eycap/recipes/deploy.rb
 lib/eycap/recipes/ferret.rb
 lib/eycap/recipes/memcached.rb
 lib/eycap/recipes/mongrel.rb
+lib/eycap/recipes/monit.rb
 lib/eycap/recipes/nginx.rb
 lib/eycap/recipes/slice.rb
 lib/eycap/recipes/solr.rb
 lib/eycap/recipes/sphinx.rb
+lib/eycap/recipes/tomcat.rb
 lib/eycap/version.rb
 script/destroy
 script/generate
