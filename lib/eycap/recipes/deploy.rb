@@ -59,7 +59,7 @@ Capistrano::Configuration.instance(:must_exist).load do
                 REASON="hardware upgrade" \\
                 UNTIL="12pm Central Time"
 
-        Further customization copy your html file to #{shared_path}/system/maintenance.html.custom.
+        Further customization copy your html file to shared_path+'/system/maintenance.html.custom'.
         If this file exists it will be used instead of the default capistrano ugly page
       DESC
       task :disable, :roles => :web, :except => { :no_release => true } do
