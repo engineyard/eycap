@@ -74,7 +74,7 @@ Capistrano::Configuration.instance(:must_exist).load do
         result = ERB.new(template).result(binding)
 
         put result, "#{shared_path}/system/maintenance.html.tmp", :mode => 0644
-        run "if [ -f #{shared_path}/system/maintenance.html.custom ]; then; cp #{shared_path}/system/maintenance.html.custom #{maint_file}; else; #{shared_path}/system/maintenance.html.tmp #{maint_file}; fi"
+        run "if [ -f #{shared_path}/system/maintenance.html.custom ]; then cp #{shared_path}/system/maintenance.html.custom #{maint_file}; else cp #{shared_path}/system/maintenance.html.tmp #{maint_file}; fi"
       end
     end
   end
