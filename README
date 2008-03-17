@@ -1,1 +1,6 @@
 Engine Yard specific capistrano recipes
+  
+To push this out, simply:
+
+% rake package
+% VERSION=X.Y.Z rake deploy
