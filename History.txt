@@ -1,3 +1,6 @@
+== 0.3.1 2003-03-17
+* Make the custom maintenance pages actually work!
+
 == 0.3.0 2008-03-05
 * Adding custom maintenance pages is now as easy as copying a custom html file 
   to #{shared_path}/system/maintenance.html.custom
