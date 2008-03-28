@@ -12,7 +12,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     task :clone_prod_to_staging, :roles => :db, :only => { :primary => true } do
       backup_name
       on_rollback { run "rm -f #{backup_file}" }
-      run "mysqldump --add-drop-table -u #{dbuser} -h #{production_dbhost} -p#{dbpass} #{production_database} > #{backup_file}"
+      run "mysqldump --add-drop-table -u #{dbuser} -h #{production_dbhost}-replica -p#{dbpass} #{production_database} > #{backup_file}"
       run "mysql -u #{dbuser} -p#{dbpass} -h #{staging_dbhost} #{staging_database} < #{backup_file}"
       run "rm -f #{backup_file}"
     end
