@@ -17,11 +17,21 @@ Capistrano::Configuration.instance(:must_exist).load do
       run "rm -f #{backup_file}"
     end
   
-    # desc "Backup your database to #{shared_path}/db_backups"
-    # task :dump, :roles => :db, :only => {:primary => true} do
-    #   backup_name
-    #   run "mysqldump --add-drop-table -u #{dbuser} -h #{environment_dbhost} -p#{dbpass} #{environment_database} | bzip2 -c > #{backup_file}.bz2"
-    # end
+    desc "Backup your database to #{shared_path}/db_backups"
+    task :dump, :roles => :db, :only => {:primary => true} do
+      backup_name
+      run "mysqldump --add-drop-table -u #{dbuser} -h #{environment_dbhost} -p#{dbpass} #{environment_database} | bzip2 -c > #{backup_file}.bz2"
+    end
+    
+    desc "Sync your production database to your local workstation"
+    task :clone_to_local, :roles => :db, :only => {:primary => true} do
+      backup_name
+      dump
+      get "#{backup_file}.bz2", "/tmp/#{application}.sql.gz"
+      development_info = YAML.load_file("config/database.yml")['development']
+      run_str = "bzcat /tmp/#{application}.sql.gz | mysql -u #{development_info['username']} -p#{development_info['password']} -h #{development_info['host']} #{development_info['database']}"
+      %x!#{run_str}!
+    end
   end
 
 end

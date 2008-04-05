@@ -1,4 +1,7 @@
-== 0.3.1 2003-03-17
+== 0.3.2 2008-04-06
+* adding db:clone_to_local task to take a dump on the slice, fetch it, and load it into your dev db on your workstation
+
+== 0.3.1 2008-03-17
 * Make the custom maintenance pages actually work!
 
 == 0.3.0 2008-03-05
