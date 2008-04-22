@@ -17,7 +17,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       run "rm -f #{backup_file}"
     end
   
-    desc "Backup your database to #{shared_path}/db_backups"
+    desc "Backup your database to shared_path+/db_backups"
     task :dump, :roles => :db, :only => {:primary => true} do
       backup_name
       run "mysqldump --add-drop-table -u #{dbuser} -h #{environment_dbhost} -p#{dbpass} #{environment_database} | bzip2 -c > #{backup_file}.bz2"
