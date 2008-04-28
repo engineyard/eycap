@@ -1,6 +1,14 @@
+require File.join(File.dirname(__FILE__), "..", "lib", "ey_logger.rb")
 Capistrano::Configuration.instance(:must_exist).load do
   
-  namespace :deploy do
+  namespace :deploy do    
+    Capistrano::EYLogger.setup( self )
+    
+    on(:exit) do
+      Capistrano::EYLogger.flush
+      puts "I'VE GOT A FILE #{File.open(Capistrano::EYLogger.log_file_path).read}"
+    end
+    
     
     desc "Link the database.yml and mongrel_cluster.yml files into the current release path."
     task :symlink_configs, :roles => :app, :except => {:no_release => true} do

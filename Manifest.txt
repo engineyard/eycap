@@ -22,6 +22,7 @@ lib/eycap/recipes/sphinx.rb
 lib/eycap/recipes/templates/maintenance.rhtml
 lib/eycap/recipes/tomcat.rb
 lib/eycap/version.rb
+lib/eycap/lib/ey_logger.rb
 script/destroy
 script/generate
 script/txt2html
