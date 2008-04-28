@@ -1,14 +1,14 @@
 module Capistrano
   
-  class Logger
+  class Logger  
     
-    def with_new_logging(level, message, line_prefix = nil)
+    def ey_log(level, message, line_prefix = nil)
       EYLogger.log_it(level, message, line_prefix) if EYLogger.setup?
-      no_new_logging(level, message, line_prefix)
+      no_ey_logging(level, message, line_prefix)
     end
-
-    alias_method :no_new_logging, :log
-    alias_method :log, :with_new_logging
+    
+    alias_method :no_ey_logging, :log unless method_defined?(:no_ey_logging)
+    alias_method :log, :ey_log
     
     def close
       device.close if @needs_close
@@ -34,26 +34,21 @@ module Capistrano
       @_configuration = configuration
       @_log_path = options[:deploy_log_path] || "/tmp/engineyard/deploys/"
       FileUtils.mkdir_p(@_log_path)
-      @level = 3
       @_setup = true
     end
     
     def self.log_it(level, message, line_prefix=nil)
       return nil unless setup?
-      @application = @_configuration[:application] if @application.nil?
       @release_name = @_configuration[:release_name] if @release_name.nil?
       @_log_file_path = @_log_path + @release_name + ".log" unless @_log_file_path
       @_deploy_log_file = File.open(@_log_file_path, "w") if @_deploy_log_file.nil?
        
-      puts "IN THE NEW LOGGER"
-      if level <= 3
-        indent = "%*s" % [Logger::MAX_LEVEL, "*" * (Logger::MAX_LEVEL - level)]
-        message.each do |line|
-          if line_prefix
-            @_deploy_log_file << "#{indent} [#{line_prefix}] #{line.strip}\n"
-          else
-            @_deploy_log_file << "#{indent} #{line.strip}\n"
-          end
+      indent = "%*s" % [Logger::MAX_LEVEL, "*" * (Logger::MAX_LEVEL - level)]
+      message.each do |line|
+        if line_prefix
+          @_deploy_log_file << "#{indent} [#{line_prefix}] #{line.strip}\n"
+        else
+          @_deploy_log_file << "#{indent} #{line.strip}\n"
         end
       end
     end

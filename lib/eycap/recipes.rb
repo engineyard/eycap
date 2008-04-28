@@ -1,3 +1,4 @@
+require 'eycap/lib/ey_logger'
 require 'eycap/recipes/database'
 require 'eycap/recipes/ferret'
 require 'eycap/recipes/mongrel'
@@ -10,7 +11,6 @@ require 'eycap/recipes/memcached'
 require 'eycap/recipes/solr'
 require 'eycap/recipes/monit'
 require 'eycap/recipes/tomcat'
-require 'eycap/lib/ey_logger'
 
 Capistrano::Configuration.instance(:must_exist).load do
   
