@@ -1,3 +1,4 @@
+require 'tmpdir'
 module Capistrano
   
   class Logger  
@@ -18,21 +19,9 @@ module Capistrano
   
   class EYLogger
     
-    def self.setup?
-      @_setup
-    end   
-    
-    def self.flush
-      @_deploy_log_file.flush unless @_deploy_log_file.nil?
-    end
-    
-    def self.log_file_path
-      @_log_file_path
-    end
-    
     def self.setup(configuration, options = {})
       @_configuration = configuration
-      @_log_path = options[:deploy_log_path] || "/tmp/engineyard/deploys/"
+      @_log_path = options[:deploy_log_path] || Dir.tmpdir
       FileUtils.mkdir_p(@_log_path)
       @_setup = true
     end
@@ -53,8 +42,21 @@ module Capistrano
       end
     end
 
+    def self.setup?
+      @_setup
+    end   
+    
+    def self.flush
+      @_deploy_log_file.flush unless @_deploy_log_file.nil?
+    end
+    
+    def self.log_file_path
+      @_log_file_path
+    end
+
     def self.close
       @_deploy_log_file.close unless @_deploy_log_file.nil?
+      @_setup = false
     end
   end
 end

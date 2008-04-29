@@ -2,13 +2,19 @@ require File.join(File.dirname(__FILE__), "..", "lib", "ey_logger.rb")
 Capistrano::Configuration.instance(:must_exist).load do
   
   namespace :deploy do    
-    Capistrano::EYLogger.setup( self )
     
-    # on(:exit) do
-    #   Capistrano::EYLogger.flush
-    #   puts "I'VE GOT A FILE #{File.open(Capistrano::EYLogger.log_file_path).read}"
-    # end
+    before(:deploy) do
+      Capistrano::EYLogger.setup( self )
+    end
     
+    on(:exit) do
+      if Capistrano::EYLogger.setup?
+        eylogger = Capistrano::EYLogger
+        eylogger.flush
+        eylogger.close
+        upload_deploy_log
+      end
+    end  
     
     desc "Link the database.yml and mongrel_cluster.yml files into the current release path."
     task :symlink_configs, :roles => :app, :except => {:no_release => true} do
@@ -50,6 +56,13 @@ Capistrano::Configuration.instance(:must_exist).load do
     desc "Stop the Mongrel processes on the app slices."
     task :stop, :roles => :app do
       mongrel.stop
+    end
+    
+    task :upload_deploy_log, :roles => :app, :except => {:no_release => true} do
+      # You should not call this directly.  This is part of the exit handler
+      puts "Uploading Deploy Log File"
+      run "mkdir -p #{shared_path}/deploy_logs"
+      put File.open(Capistrano::EYLogger.log_file_path).read, "#{shared_path}/deploy_logs/#{release_name}.log"
     end
     
     namespace :web do
