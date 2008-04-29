@@ -1,5 +1,9 @@
 == 0.3.2 2008-04-06
 * adding db:clone_to_local task to take a dump on the slice, fetch it, and load it into your dev db on your workstation
+* only clone from replica database
+* fix call to variable in task desc
+* fix ferret symlinking
+* gemspec for github
 
 == 0.3.1 2008-03-17
 * Make the custom maintenance pages actually work!
