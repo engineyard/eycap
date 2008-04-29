@@ -6,6 +6,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       run <<-CMD
         cd #{release_path} &&
         ln -nfs #{shared_path}/config/ferret_server.yml #{release_path}/config/ferret_server.yml &&
+        if [ -d #{release_path}/index ]; then mv #{release_path}/index #{release_path}/index.bak; fi"
         ln -nfs #{shared_path}/index #{release_path}/index
       CMD
     end
