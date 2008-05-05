@@ -6,11 +6,11 @@ module Capistrano
   class Logger  
     
     def ey_log(level, message, line_prefix = nil)
-      EYLogger.log_it(level, message, line_prefix) if EYLogger.setup?
-      no_ey_logging(level, message, line_prefix)
+      EYLogger.log(level, message, line_prefix) if EYLogger.setup?
+      log_without_ey_logging(level, message, line_prefix)
     end
     
-    alias_method :no_ey_logging, :log unless method_defined?(:no_ey_logging)
+    alias_method :log_without_ey_logging, :log unless method_defined?(:log_without_ey_logging)
     alias_method :log, :ey_log
     
     def close
@@ -29,7 +29,7 @@ module Capistrano
       @_setup = true
     end
     
-    def self.log_it(level, message, line_prefix=nil)
+    def self.log(level, message, line_prefix=nil)
       return nil unless setup?
       @release_name = @_configuration[:release_name] if @release_name.nil?
       @_log_file_path = @_log_path + @release_name + ".log" unless @_log_file_path
