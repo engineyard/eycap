@@ -2,20 +2,14 @@ require File.join(File.dirname(__FILE__), "..", "lib", "ey_logger.rb")
 Capistrano::Configuration.instance(:must_exist).load do
   
   namespace :deploy do    
-    
-    before(:deploy) do
-      Capistrano::EYLogger.setup( self )
-    end
-    
-    on(:exit) do
-      if Capistrano::EYLogger.setup?
-        eylogger = Capistrano::EYLogger
-        eylogger.flush
-        eylogger.close
-        upload_deploy_log
+    # This is here to hook into the logger for deploy and deploy:long tasks
+    ["deploy", "deploy:long"].each do |tsk|
+      before(tsk) do
+        Capistrano::EYLogger.setup( self, tsk )
+        at_exit{ Capistrano::EYLogger.upload }
       end
-    end  
-    
+    end
+
     desc "Link the database.yml and mongrel_cluster.yml files into the current release path."
     task :symlink_configs, :roles => :app, :except => {:no_release => true} do
       run <<-CMD

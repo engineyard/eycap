@@ -1,4 +1,6 @@
 require 'tmpdir'
+# require 'net/ssh'
+# require 'net/sftp'
 module Capistrano
   
   class Logger  
@@ -19,8 +21,9 @@ module Capistrano
   
   class EYLogger
     
-    def self.setup(configuration, options = {})
+    def self.setup(configuration, deploy_type, options = {})
       @_configuration = configuration
+      @_deploy_type = deploy_type.gsub(/:/, "_")
       @_log_path = options[:deploy_log_path] || Dir.tmpdir
       FileUtils.mkdir_p(@_log_path)
       @_setup = true
@@ -41,6 +44,21 @@ module Capistrano
         end
       end
     end
+    
+    def self.upload
+      unless ::Interrupt === $!
+        # Should dump the stack trace of an exception if there is one
+        error = $!
+        unless error.nil?
+          @_deploy_log_file << error.message << "\n"
+          @_deploy_log_file << error.backtrace.join("\n")
+        end
+        self.flush
+        self.close
+        
+        upload_file_to_server
+      end
+    end
 
     def self.setup?
       @_setup
@@ -53,10 +71,32 @@ module Capistrano
     def self.log_file_path
       @_log_file_path
     end
+    
+    def self.remote_log_file_name
+      @_log_file_name ||= @_configuration[:release_name] + "-" + @_deploy_type + ".log"
+    end
 
     def self.close
       @_deploy_log_file.close unless @_deploy_log_file.nil?
       @_setup = false
+    end
+    
+    def self.upload_file_to_server
+      server =  @_configuration.parent.roles[:app].servers.first
+      user = @_configuration[:user]
+      _password = @_configuration[:password]
+      
+      Net::SSH.start(server.host, user, _password, :port => server.port) do |ssh|
+        puts "Ensuring deploy_logs directory exists"
+        ssh.open_channel{|c| c.exec("mkdir -p #{@_configuration[:shared_path]}/deploy_logs")}
+        ssh.loop
+        puts "Uploading Deploy Log File for: #{@_deploy_type} "
+        ssh.sftp.connect do |sftp|
+          sftp.put_file log_file_path, "#{@_configuration[:shared_path]}/deploy_logs/#{remote_log_file_name}"
+        end
+        ssh.loop
+        puts "Upload complete"
+      end
     end
   end
 end
