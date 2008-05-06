@@ -50,7 +50,7 @@ module Capistrano
     end
     
     def self.post_process      
-      # unless ::Interrupt === $!
+      unless ::Interrupt === $!
         puts "\n\nPlease wait while the log file is processed\n"
         # Should dump the stack trace of an exception if there is one
         error = $!
@@ -70,7 +70,7 @@ module Capistrano
           end
         end
         puts "Finished Post Processing Hooks"
-      # end
+      end
     end
     
     # Adds a post processing hook.  
