@@ -27,6 +27,7 @@ module Capistrano
       @_configuration = configuration
       @_deploy_type = deploy_type.gsub(/:/, "_")
       @_log_path = options[:deploy_log_path] || Dir.tmpdir
+      @_log_path << "/" unless @_log_path =~ /\/$/
       FileUtils.mkdir_p(@_log_path)
       @_setup = true
       @_success = true
