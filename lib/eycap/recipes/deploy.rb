@@ -6,7 +6,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     ["deploy", "deploy:long"].each do |tsk|
       before(tsk) do
         Capistrano::EYLogger.setup( self, tsk )
-        at_exit{ Capistrano::EYLogger.post_process }
+        at_exit{ Capistrano::EYLogger.post_process if Capistrano::EYLogger.setup? }
       end
     end
 
@@ -50,13 +50,6 @@ Capistrano::Configuration.instance(:must_exist).load do
     desc "Stop the Mongrel processes on the app slices."
     task :stop, :roles => :app do
       mongrel.stop
-    end
-    
-    task :upload_deploy_log, :roles => :app, :except => {:no_release => true} do
-      # You should not call this directly.  This is part of the exit handler
-      puts "Uploading Deploy Log File"
-      run "mkdir -p #{shared_path}/deploy_logs"
-      put File.open(Capistrano::EYLogger.log_file_path).read, "#{shared_path}/deploy_logs/#{release_name}.log"
     end
     
     namespace :web do

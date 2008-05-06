@@ -49,8 +49,9 @@ module Capistrano
       end
     end
     
-    def self.post_process
+    def self.post_process      
       # unless ::Interrupt === $!
+        puts "\n\nPlease wait while the log file is processed\n"
         # Should dump the stack trace of an exception if there is one
         error = $!
         unless error.nil?
@@ -59,59 +60,34 @@ module Capistrano
           @_success = false
         end
         self.close
-        
-        server =    @_configuration.parent.roles[:app].servers.first
-        user =      @_configuration[:user]
-        _password = @_configuration[:password]
-        
-        # Net::SSH.start(server.host, user, _password, :port => server.port) do |ssh| # Works with Net::SSH 1.x
-        Net::SSH.start(server.host, user, :password => _password, :port => server.port) do |ssh| # Works with Net::SSH 2.X
-          hooks = [:any]
-          hooks << self.successful? ? :success : :failure
-          puts "Executing Post Processing Hooks"
-          hooks.each do |h|
-            @_post_process_hooks[h].each do |opts, pph|
-              render_message opts[:start_message]
-              pph.call(ssh, @_configuration, self)
-              render_message opts[:finish_message]
-            end
+
+        hooks = [:any]
+        hooks << self.successful? ? :success : :failure
+        puts "Executing Post Processing Hooks"
+        hooks.each do |h|
+          @_post_process_hooks[h].each do |key|
+            @_configuration.parent.find_and_execute_task(key)
           end
-          puts "Finished Post Processing Hooks"
-        # end
-      end
+        end
+        puts "Finished Post Processing Hooks"
+      # end
     end
     
     # Adds a post processing hook.  
-    # Takes a key to control when the hook is executed.
+    #
+    # Provide a task name to execute.  These tasks are executed after capistrano has actually run its course. 
+    #
+    # Takes a key to control when the hook is executed.'
     # :any - always executed
     # :success - only execute on success
     # :failure - only execute on failure
     #
-    # Takes an options hash.  Valid options are
-    #   <tt>:start_message</tt> - A message rendered to the user when beginning the hook.  Can be String or proc
-    #   <tt>:finish_message</tt> - A message rendered to the user when finishing the hook. Can be String or proc
-    #  Message procs are yielded the logger instance and the configuraiton instance
+    # ==== Example
+    #  Capistrano::EYLogger.post_process_hook( "ey_logger:upload_log_to_slice", :any) 
     #
-    #  === Example
-    #  Capistrano::EYLogger.post_process_hook(:finish_message => Proc.new{|log,config| puts "Deploy Type #{log.deploy_type}"}) do |ssh, config, logger|
-    #    # stuff
-    #  end
-    #
-    # Since this occurs outside the normal capistrano execution tasks, and the connection are not directly accessible.
-    # instead, an active ssh connection is passed to the block, along with the capistrano configuration.
-    # cap variables are accessible
-    #
-    #  ==== Example
-    #
-    #  EYLogger.post_process_hook(:success) do |ssh, config, logger|
-    #    ssh.sftp.connect do |sftp|
-    #     sftp.put_file logger.log_file_path, "#{config[:shared_path]}/deploy_logs/#{logger.remote_log_file_name}"
-    #    end
-    #  end
-    def self.post_process_hook(key = :any, opts = {}, &blk)
-      raise "You must supply a block" unless block_given?
+    def self.post_process_hook(task, key = :any)
       @_post_process_hooks ||= Hash.new{|h,k| h[k] = []}
-      @_post_process_hooks[key] << [opts, blk]
+      @_post_process_hooks[key] << task
     end
 
     def self.setup?
@@ -144,15 +120,5 @@ module Capistrano
       @_setup = false
     end
     
-    private 
-    def self.render_message(msg)
-      return if msg.nil?
-      case msg
-      when String
-        puts msg
-      when Proc
-        msg.call(self, @_configuration)
-      end
-    end
   end
 end
