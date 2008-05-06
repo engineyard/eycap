@@ -50,7 +50,7 @@ module Capistrano
     end
     
     def self.post_process
-      unless ::Interrupt === $!
+      # unless ::Interrupt === $!
         # Should dump the stack trace of an exception if there is one
         error = $!
         unless error.nil?
@@ -64,7 +64,8 @@ module Capistrano
         user =      @_configuration[:user]
         _password = @_configuration[:password]
         
-        Net::SSH.start(server.host, user, _password, :port => server.port) do |ssh|
+        # Net::SSH.start(server.host, user, _password, :port => server.port) do |ssh| # Works with Net::SSH 1.x
+        Net::SSH.start(server.host, user, :password => _password, :port => server.port) do |ssh| # Works with Net::SSH 2.X
           hooks = [:any]
           hooks << self.successful? ? :success : :failure
           puts "Executing Post Processing Hooks"
@@ -76,7 +77,7 @@ module Capistrano
             end
           end
           puts "Finished Post Processing Hooks"
-        end
+        # end
       end
     end
     
@@ -92,7 +93,7 @@ module Capistrano
     #  Message procs are yielded the logger instance and the configuraiton instance
     #
     #  === Example
-    #  Capistrano::EYLogger.post_process_hook(:finish_message => Proc.new{|log,config| puts "Deploy Type #{l.deploy_type}"}) do |ssh, config, logger|
+    #  Capistrano::EYLogger.post_process_hook(:finish_message => Proc.new{|log,config| puts "Deploy Type #{log.deploy_type}"}) do |ssh, config, logger|
     #    # stuff
     #  end
     #

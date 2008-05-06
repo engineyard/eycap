@@ -5,7 +5,14 @@ Capistrano::EYLogger.post_process_hook(:any, :start_message => "Uploading log fi
   ssh.loop
   puts "Uploading Deploy Log File for: #{logger.deploy_type} "
   ssh.sftp.connect do |sftp|
-    sftp.put_file logger.log_file_path, "#{config[:shared_path]}/deploy_logs/#{logger.remote_log_file_name}"
+    remote_file_name = "#{config[:shared_path]}/deploy_logs/#{logger.remote_log_file_name}"
+    if sftp.respond_to?(:put_file)
+      # Net::SFTP 1.X
+      sftp.put_file logger.log_file_path, remote_file_name
+    else 
+      # Net::SFTP 2.X
+      sftp.upload! logger.log_file_path, remote_file_name
+    end
   end
   ssh.loop
 end
