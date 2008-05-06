@@ -6,7 +6,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     ["deploy", "deploy:long"].each do |tsk|
       before(tsk) do
         Capistrano::EYLogger.setup( self, tsk )
-        at_exit{ Capistrano::EYLogger.upload }
+        at_exit{ Capistrano::EYLogger.post_process }
       end
     end
 

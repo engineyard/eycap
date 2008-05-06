@@ -1,4 +1,5 @@
 require 'eycap/lib/ey_logger'
+require 'eycap/lib/ey_logger_hooks'
 require 'eycap/recipes/database'
 require 'eycap/recipes/ferret'
 require 'eycap/recipes/mongrel'
