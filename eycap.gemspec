@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = "eycap"
-  s.version = "0.3.2"
-  s.date = "2008-04-29"
+  s.version = "0.3.3"
+  s.date = "2008-05-07"
   s.summary = "Capistrano tasks for Engine Yard slices"
   s.email = "tech@engineyard.com"
   s.homepage = "http://eycap.rubyforge.org"

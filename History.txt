@@ -1,3 +1,6 @@
+== 0.3.3 / 2008-05-07
+  * add ey_logger to log deploys to server
+
 == 0.3.2 / 2008-04-29
   * adding db:clone_to_local task to take a dump on the slice, fetch it, and load it into your dev db on your workstation
   * only clone from replica database
