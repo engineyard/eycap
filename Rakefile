@@ -9,7 +9,7 @@ Hoe.new('eycap', Eycap::VERSION) do |p|
   p.description = 'A bunch of useful recipes to help deployment to Engine Yard slices'
   p.url = 'http://eycap.rubyforge.org'
   p.changes = p.paragraphs_of('History.txt', 0..1).join("\n\n")
-  p.extra_deps << ['capistrano']
+  p.extra_deps << ['capistrano', '>= 2.2.0']
 end
 
 desc "Open an irb session preloaded with this library"

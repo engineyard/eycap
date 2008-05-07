@@ -13,11 +13,11 @@ Gem::Specification.new do |s|
   s.test_files = ["test/test_eycap.rb", "test/test_helper.rb"]
 
   s.has_rdoc = true
-  s.extra_rdoc_files = ["History.txt", "License.txt", "Manifest.txt", "README.txt"]
+  s.extra_rdoc_files = ["History.txt", "Manifest.txt", "README.txt"]
   s.rdoc_options = ["--main", "README.txt"]
 
   s.rubyforge_project = "eycap"
   s.rubygems_version = "1.1.1"
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.add_dependency("capistrano", ["> 2.2.0"])
+  s.add_dependency("capistrano", [">= 2.2.0"])
 end
