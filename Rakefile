@@ -26,3 +26,8 @@ end
 desc "Upload site to Rubyforge"
 task :site do
 end
+
+desc 'Install the package as a gem.'
+task :install_gem_no_doc => [:clean, :package] do
+  sh "#{'sudo ' unless Hoe::WINDOZE}gem install --local --no-rdoc --no-ri pkg/*.gem"
+end
