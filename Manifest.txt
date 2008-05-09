@@ -1,10 +1,7 @@
 History.txt
-License.txt
 Manifest.txt
 README.txt
 Rakefile
-config/hoe.rb
-config/requirements.rb
 lib/capistrano/recipes/deploy/strategy/filtered_remote_cache.rb
 lib/eycap.rb
 lib/eycap/recipes.rb
@@ -21,15 +18,7 @@ lib/eycap/recipes/solr.rb
 lib/eycap/recipes/sphinx.rb
 lib/eycap/recipes/templates/maintenance.rhtml
 lib/eycap/recipes/tomcat.rb
-lib/eycap/version.rb
 lib/eycap/lib/ey_logger.rb
 lib/eycap/lib/ey_logger_hooks.rb
-script/destroy
-script/generate
-script/txt2html
-setup.rb
-tasks/deployment.rake
-tasks/environment.rake
-tasks/website.rake
 test/test_eycap.rb
 test/test_helper.rb

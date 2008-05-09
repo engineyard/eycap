@@ -1,101 +1,84 @@
-== 0.3.2 2008-04-29
-* adding db:clone_to_local task to take a dump on the slice, fetch it, and load it into your dev db on your workstation
-* only clone from replica database
-* remove call to variable in task desc
-* fix ferret symlinking
-* gemspec for github
+== HEAD / 0000-00-00
+  * rake install_gem_no_doc for faster install
 
-== 0.3.1 2008-03-17
-* Make the custom maintenance pages actually work!
+== 0.3.3 / 2008-05-07
+  * add ey_logger to log deploys to server
 
-== 0.3.0 2008-03-05
-* Adding custom maintenance pages is now as easy as copying a custom html file 
-  to #{shared_path}/system/maintenance.html.custom
+== 0.3.2 / 2008-04-29
+  * adding db:clone_to_local task to take a dump on the slice, fetch it, and load it into your dev db on your workstation
+  * only clone from replica database
+  * remove call to variable in task desc
+  * fix ferret symlinking
+  * gemspec for github
 
-== 0.2.10 2008-03-02
+== 0.3.1 / 2008-03-17
+  * Make the custom maintenance pages actually work!
 
-* Symlink memcached.yml only on :memcached => true, except :no_release => true
+== 0.3.0 / 2008-03-05
+  * Adding custom maintenance pages is now as easy as copying a custom html file to #{shared_path}/system/maintenance.html.custom
 
-== 0.2.9 2008-02-27
+== 0.2.10 / 2008-03-02
+  * Symlink memcached.yml only on :memcached => true, except :no_release => true
 
-* Fix a bug with ultrasphinx:configure running on multiple hosts
+== 0.2.9 / 2008-02-27
+  * Fix a bug with ultrasphinx:configure running on multiple hosts
 
-== 0.2.8 2008-02-20
+== 0.2.8 / 2008-02-20
+  * Add tasks for solr starting,stopping, and log tailing.
+  * Add monit namespace and make appservers php/merb compatible
+  * Make ultrasphinx symlinking a little smarter
+  * Add tomcat tasks for spongecell
 
-* Add tasks for solr starting,stopping, and log tailing.
-* Add monit namespace and make appservers php/merb compatible
-* Make ultrasphinx symlinking a little smarter
-* Add tomcat tasks for spongecell
+== 0.2.6 / 2008-02-14
+  * Make mongrel restarts only apply to mongrel slices
 
-== 0.2.6 2008-02-14
+== 0.2.5 / 2008-02-11
+  * Added db cloning task
 
-* Make mongrel restarts only apply to mongrel slices
+== 0.2.4 / 2008-02-06
+  * Symlink memcached.yml in on deploy if you enable the callback
 
-== 0.2.5 2008-02-11
+== 0.2.3 / 2008-02-01
+  * Make log tailing environmentally aware.  Also add tasks to tail mongrel logs
 
-* Added db cloning task
+== 0.2.2 / 2008-01-25
+  * sphinx:configure ultrasphinx configuration task
 
-== 0.2.4 2008-02-06
+== 0.2.1 / 2008-01-25
+  * override default deploy recipe start/stop tasks
 
-* Symlink memcached.yml in on deploy if you enable the callback
+== 0.2.0 / 2008-01-23
+  * sphinx:symlink ultrasphinx configuration directory
 
-== 0.2.3 2008-02-01
+== 0.1.9 / 2008-01-21
+  * Correct memcached tasks.
 
-* Make log tailing environmentally aware.  Also add tasks to tail mongrel logs
+== 0.1.8 / 2008-01-20
+  * Add memcached tasks
 
-== 0.2.2 2008-01-25
+== 0.1.7 / 2008-01-19
+  * fix symlink_configs task
 
-* sphinx:configure ultrasphinx configuration task
+== 0.1.6 / 2008-01-19
+  * add restart tasks for backgroundrb
 
-== 0.2.1 2008-01-25
+== 0.1.5 / 2008-01-18
+  * fixed bug in filtered_remote_cache that prevented a changed checkout URL from taking over the cache
 
-* override default deploy recipe start/stop tasks
+== 0.1.4 / 2008-01-17
+  * added sphinx:[reindex|start|stop|restart] matches only app servers with :sphinx => true
 
-== 0.2.0 2008-01-23
+== 0.1.3 / 2008-01-17
+  * filtered_remote_cache to removes the cached copy of the source URL changed
 
-* sphinx:symlink ultrasphinx configuration directory
+== 0.1.2 / 2008-01-15
+  * added filtered_remote_cache capistrano deployment strategy
 
-== 0.1.9 2008-01-21
+== 0.1.1 / 2008-01-15
+  * removed database tasks until problem with 'defer' is solved
 
-* Correct memcached tasks.
+== 0.1.0 / 2008-01-14
+  * Bugfix for empty :application variable
 
-== 0.1.8 2008-01-20
-
-* Add memcached tasks
-
-== 0.1.7 2008-01-19
-
-* fix symlink_configs task
-
-== 0.1.6 2008-01-19
-
-* add restart tasks for backgroundrb
-
-== 0.1.5 2008-01-18
-
-* fixed bug in filtered_remote_cache that prevented a changed checkout URL from taking over the cache
-
-== 0.1.4 2008-01-17
-
-* added sphinx:[reindex|start|stop|restart] matches only app servers with :sphinx => true
-
-== 0.1.3 2008-01-17
-
-* filtered_remote_cache to removes the cached copy of the source URL changed
-
-== 0.1.2 2008-01-15
-
-* added filtered_remote_cache capistrano deployment strategy
-
-== 0.1.1 2008-01-15
-
-* removed database tasks until problem with 'defer' is solved
-
-== 0.1.0 2008-01-14
-
-* Bugfix for empty :application variable
-
-== 0.0.1 2008-01-14
-
-* 1 major enhancement:
+== 0.0.1 / 2008-01-14
   * Initial release
