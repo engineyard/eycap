@@ -1,4 +1,3 @@
-(in /Volumes/CaseSensitive2/Projects/eycap)
 Gem::Specification.new do |s|
   s.name = %q{eycap}
   s.version = "0.3.3"
