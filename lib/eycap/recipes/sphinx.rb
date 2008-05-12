@@ -26,8 +26,8 @@ Capistrano::Configuration.instance(:must_exist).load do
 
     desc "Symlink the sphinx config file"
     task :symlink, :roles => :app, :only => {:sphinx => true}, :except => {:no_release => true} do
-      run "if [ -d #{release_path}/config/ultrasphinx ]; then mv #{release_path}/config/ultrasphinx #{release_path}/config/ultrasphinx.bak; fi"
-      run "ln -nfs #{shared_path}/config/ultrasphinx #{release_path}/config/ultrasphinx"
+      run "if [ -d #{latest_release}/config/ultrasphinx ]; then mv #{latest_release}/config/ultrasphinx #{latest_release}/config/ultrasphinx.bak; fi"
+      run "ln -nfs #{shared_path}/config/ultrasphinx #{latest_release}/config/ultrasphinx"
     end
   end
 

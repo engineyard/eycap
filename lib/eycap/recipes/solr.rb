@@ -4,7 +4,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     desc "After update_code you want to symlink the index and ferret_server.yml file into place"
     task :symlink_configs, :roles => :app, :except => {:no_release => true} do
       run <<-CMD
-        cd #{release_path} && ln -nfs #{shared_path}/config/solr.yml #{release_path}/config/solr.yml
+        cd #{latest_release} && ln -nfs #{shared_path}/config/solr.yml #{latest_release}/config/solr.yml
       CMD
     end
     

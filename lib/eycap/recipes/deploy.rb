@@ -13,9 +13,9 @@ Capistrano::Configuration.instance(:must_exist).load do
     desc "Link the database.yml and mongrel_cluster.yml files into the current release path."
     task :symlink_configs, :roles => :app, :except => {:no_release => true} do
       run <<-CMD
-        cd #{release_path} &&
-        ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml &&
-        ln -nfs #{shared_path}/config/mongrel_cluster.yml #{release_path}/config/mongrel_cluster.yml
+        cd #{latest_release} &&
+        ln -nfs #{shared_path}/config/database.yml #{latest_release}/config/database.yml &&
+        ln -nfs #{shared_path}/config/mongrel_cluster.yml #{latest_release}/config/mongrel_cluster.yml
       CMD
     end
   

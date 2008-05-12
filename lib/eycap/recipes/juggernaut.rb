@@ -4,8 +4,8 @@ Capistrano::Configuration.instance(:must_exist).load do
     desc "After update_code you want to symlink the juggernaut.yml file into place"
     task :symlink_configs, :roles => :app, :except => {:no_release => true} do
       run <<-CMD
-        cd #{release_path} &&
-        ln -nfs #{shared_path}/config/juggernaut.yml #{release_path}/config/juggernaut.yml
+        cd #{latest_release} &&
+        ln -nfs #{shared_path}/config/juggernaut.yml #{latest_release}/config/juggernaut.yml
       CMD
     end
     [:start,:stop,:restart].each do |op|
