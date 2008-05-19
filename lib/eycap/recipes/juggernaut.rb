@@ -5,7 +5,8 @@ Capistrano::Configuration.instance(:must_exist).load do
     task :symlink_configs, :roles => :app, :except => {:no_release => true} do
       run <<-CMD
         cd #{latest_release} &&
-        ln -nfs #{shared_path}/config/juggernaut.yml #{latest_release}/config/juggernaut.yml
+        ln -nfs #{shared_path}/config/juggernaut.yml #{latest_release}/config/juggernaut.yml &&
+        ln -nfs #{shared_path}/config/juggernaut_hosts.yml #{latest_release}/config/juggernaut_hosts.yml
       CMD
     end
     [:start,:stop,:restart].each do |op|
