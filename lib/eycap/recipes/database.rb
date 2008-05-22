@@ -12,7 +12,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     task :clone_prod_to_staging, :roles => :db, :only => { :primary => true } do
       backup_name
       on_rollback { run "rm -f #{backup_file}" }
-      run "mysqldump --add-drop-table -u #{dbuser} -h #{production_dbhost}-replica -p#{dbpass} #{production_database} > #{backup_file}"
+      run "mysqldump --add-drop-table -u #{dbuser} -h #{production_dbhost.gsub('-master', '-replica')} -p#{dbpass} #{production_database} > #{backup_file}"
       run "mysql -u #{dbuser} -p#{dbpass} -h #{staging_dbhost} #{staging_database} < #{backup_file}"
       run "rm -f #{backup_file}"
     end
@@ -20,7 +20,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     desc "Backup your database to shared_path+/db_backups"
     task :dump, :roles => :db, :only => {:primary => true} do
       backup_name
-      run "mysqldump --add-drop-table -u #{dbuser} -h #{environment_dbhost}-replica -p#{dbpass} #{environment_database} | bzip2 -c > #{backup_file}.bz2"
+      run "mysqldump --add-drop-table -u #{dbuser} -h #{environment_dbhost.gsub('-master', '-replica')} -p#{dbpass} #{environment_database} | bzip2 -c > #{backup_file}.bz2"
     end
     
     desc "Sync your production database to your local workstation"
