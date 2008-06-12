@@ -1,4 +1,5 @@
 require 'tmpdir'
+require 'fileutils'
 module Capistrano
   
   class Logger  
