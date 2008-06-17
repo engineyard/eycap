@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Engine Yard"]
-  s.date = %q{2008-05-23}
+  s.date = %q{2008-05-24}
   s.description = %q{A bunch of useful recipes to help deployment to Engine Yard slices}
   s.email = %q{tech@engineyard.com}
   s.extra_rdoc_files = ["History.txt", "Manifest.txt", "README.txt"]
