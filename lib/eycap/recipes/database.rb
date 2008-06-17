@@ -1,7 +1,7 @@
 Capistrano::Configuration.instance(:must_exist).load do
 
   namespace :db do
-    task :backup_name, :only => { :primary => true } do
+    task :backup_name, :roles => :db, :only => { :primary => true } do
       now = Time.now
       run "mkdir -p #{shared_path}/db_backups"
       backup_time = [now.year,now.month,now.day,now.hour,now.min,now.sec].join('-')
