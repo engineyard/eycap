@@ -1,6 +1,7 @@
 == 0.3.4 / 2008-06-17
   * rake install_gem_no_doc for faster install
   * set role to db for backup_name task
+  * add migration support for merb
 
 == 0.3.3 / 2008-05-07
   * add ey_logger to log deploys to server
