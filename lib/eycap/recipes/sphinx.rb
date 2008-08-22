@@ -23,11 +23,19 @@ Capistrano::Configuration.instance(:must_exist).load do
     task :restart, :roles => :app, :only => {:sphinx => true} do
       sudo "/usr/bin/monit restart all -g sphinx_#{application}"
     end        
-
-    desc "Symlink the sphinx config file"
     task :symlink, :roles => :app, :only => {:sphinx => true}, :except => {:no_release => true} do
       run "if [ -d #{latest_release}/config/ultrasphinx ]; then mv #{latest_release}/config/ultrasphinx #{latest_release}/config/ultrasphinx.bak; fi"
       run "ln -nfs #{shared_path}/config/ultrasphinx #{latest_release}/config/ultrasphinx"
+    end
+    
+  end
+  
+  namespace :thinking_sphinx do
+    desc "Symlink the thinking sphinx config file and directory"
+    task :symlink, :roles => :app, :only => {:sphinx => true}, :except => {:no_release => true} do
+      run "if [ -d #{latest_release}/config/thinkingsphinx ]; then mv #{latest_release}/config/thinkingsphinx #{latest_release}/config/thinkingsphinx.bak; fi"
+      run "ln -nfs #{shared_path}/config/thinkingsphinx #{latest_release}/config/thinkingsphinx"
+      run "ln -nfs #{shared_path}/config/sphinx.yml #{latest_release}/config/sphinx.yml"
     end
   end
 
