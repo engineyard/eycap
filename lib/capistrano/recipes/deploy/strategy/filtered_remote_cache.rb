@@ -30,7 +30,7 @@ module Capistrano
 
           def update_repository_cache
             logger.trace "checking if the cached copy repository root matches this deploy, then updating it"
-            command = "if [ -d #{repository_cache} ] && ! echo '#{configuration[:repository]}' | egrep -q \"^`svn info #{repository_cache} | grep 'Repository Root' | awk '{print $3}'`\"; then " + 
+            command = "if [ -d #{repository_cache} ] && ! echo '#{configuration[:repository]}' | grep -q `svn info #{repository_cache} | grep 'Repository Root' | awk '{print $3}'`; then " + 
               "rm -rf #{repository_cache} && #{source.checkout(revision, repository_cache)}; " + 
               "elif [ -d #{repository_cache} ]; then #{source.sync(revision, repository_cache)}; " +
               "else #{source.checkout(revision, repository_cache)}; fi"
