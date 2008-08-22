@@ -1,3 +1,6 @@
+== 0.3.7 / 2008-08-23
+  * fix from customer for filtered_remote_cache to just use plain grep.
+
 == 0.3.6 / 2008-07-17
   * features updated VERSION
 
