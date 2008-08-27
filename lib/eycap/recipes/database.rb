@@ -17,20 +17,20 @@ Capistrano::Configuration.instance(:must_exist).load do
         run "mysqldump --add-drop-table -u #{dbuser} -h #{production_dbhost.gsub('-master', '-replica')} -p#{dbpass} #{production_database} > #{backup_file}"
         run "mysql -u #{dbuser} -p#{dbpass} -h #{staging_dbhost} #{staging_database} < #{backup_file}"
       else
-        run "pg_dump -c -U #{dbuser} -h #{production_dbhost} -W #{dbpass} #{production_database} > #{backup_file}"
-        run "psql -U #{dbuser} -W #{dbpass} -h #{staging_dbhost} #{staging_database} < #{backup_file}"
+        run "PGPASSWORD=#{dbpass} pg_dump -c -U #{dbuser} -h #{production_dbhost} -f #{backup_file} #{production_database}"
+        run "PGPASSWORD=#{dbpass} psql -U #{dbuser} -h #{staging_dbhost} -f #{backup_file} #{staging_database}"
       end
       run "rm -f #{backup_file}"
     end
   
-    desc "Backup your database to shared_path+/db_backups"
+    desc "Backup your MySQL or PostgreSQL database to shared_path+/db_backups"
     task :dump, :roles => :db, :only => {:primary => true} do
       backup_name
       environment_info = YAML.load_file("config/database.yml")[rails_env]
       if environment_info['adapter'] == 'mysql'
         run "mysqldump --add-drop-table -u #{dbuser} -h #{environment_dbhost.gsub('-master', '-replica')} -p#{dbpass} #{environment_database} | bzip2 -c > #{backup_file}.bz2"
       else
-        run "pg_dump -c -U #{dbuser} -h #{environment_dbhost} -W #{dbpass} #{environment_database} | bzip2 -c > #{backup_file}.bz2"
+        run "PGPASSWORD=#{dbpass} pg_dump -c -U #{dbuser} -h #{environment_dbhost} #{environment_database} | bzip2 -c > #{backup_file}.bz2"
       end
     end
     
@@ -43,7 +43,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       if development_info['adapter'] == 'mysql'
         run_str = "bzcat /tmp/#{application}.sql.gz | mysql -u #{development_info['username']} -p#{development_info['password']} -h #{development_info['host']} #{development_info['database']}"
       else
-        run_str = "bzcat /tmp/#{application}.sql.gz | psql -U #{development_info['username']} -W #{development_info['password']} -h #{development_info['host']} #{development_info['database']}"
+        run_str = "PGPASSWORD=#{development_info['password']} bzcat /tmp/#{application}.sql.gz | psql -U #{development_info['username']} -h #{development_info['host']} #{development_info['database']}"
       end
       %x!#{run_str}!
     end
