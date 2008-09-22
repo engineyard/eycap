@@ -17,7 +17,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     
     namespace :tail do
       desc "Tail the Solr logs this environment"
-      task :logs, :roles => :roles => [:app, :solr], :only => {:solr => true} do
+      task :logs, :roles => [:app, :solr], :only => {:solr => true} do
         run "tail -f /var/log/engineyard/solr/#{application}.log" do |channel, stream, data|
           puts  # for an extra line break before the host name
           puts "#{channel[:server]} -> #{data}" 
@@ -25,7 +25,7 @@ Capistrano::Configuration.instance(:must_exist).load do
         end
       end
       desc "Tail the Solr error logs this environment"
-      task :errors, :roles => :roles => [:app, :solr], :only => {:solr => true} do
+      task :errors, :roles => [:app, :solr], :only => {:solr => true} do
         run "tail -f /var/log/engineyard/solr/#{application}.err.log" do |channel, stream, data|
           puts  # for an extra line break before the host name
           puts "#{channel[:server]} -> #{data}" 
