@@ -1,3 +1,8 @@
+== 0.3.9 / 2008-09-29
+  * add reindex task for /engineyard/bin/acts_as_sphinx_searchd
+  * add reindex and configure task for /engineyard/bin/ultrasphinx_searchd
+  * add reindex and configure task for /engineyard/bin/thinking_sphinx_searchd
+
 == 0.3.8 / 2008-09-22
   * add PostgreSQL support to the database.rb recipe.
 
