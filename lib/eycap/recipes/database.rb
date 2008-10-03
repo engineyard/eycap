@@ -12,8 +12,8 @@ Capistrano::Configuration.instance(:must_exist).load do
     task :clone_prod_to_staging, :roles => :db, :only => { :primary => true } do
       backup_name
       on_rollback { run "rm -f #{backup_file}" }
-      prod_info = YAML.load_file("config/database.yml")["production"]
-      if prod_info['adapter'] == 'mysql'
+      run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }
+      if @environment_info['adapter'] == 'mysql'
         run "mysqldump --add-drop-table -u #{dbuser} -h #{production_dbhost.gsub('-master', '-replica')} -p#{dbpass} #{production_database} > #{backup_file}"
         run "mysql -u #{dbuser} -p#{dbpass} -h #{staging_dbhost} #{staging_database} < #{backup_file}"
       else
@@ -26,8 +26,8 @@ Capistrano::Configuration.instance(:must_exist).load do
     desc "Backup your MySQL or PostgreSQL database to shared_path+/db_backups"
     task :dump, :roles => :db, :only => {:primary => true} do
       backup_name
-      environment_info = YAML.load_file("config/database.yml")[rails_env]
-      if environment_info['adapter'] == 'mysql'
+      run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }
+      if @environment_info['adapter'] == 'mysql'
         run "mysqldump --add-drop-table -u #{dbuser} -h #{environment_dbhost.gsub('-master', '-replica')} -p#{dbpass} #{environment_database} | bzip2 -c > #{backup_file}.bz2"
       else
         run "PGPASSWORD=#{dbpass} pg_dump -c -U #{dbuser} -h #{environment_dbhost} #{environment_database} | bzip2 -c > #{backup_file}.bz2"
