@@ -1,7 +1,16 @@
+require 'capistrano/recipes/deploy/scm/base'
 require 'capistrano/recipes/deploy/strategy/remote'
 
 module Capistrano
   module Deploy
+    module SCM
+      class Subversion < Base
+        def switch(revision, checkout)
+          "cd #{checkout} && #{scm :switch, verbose, authentication, "-r#{revision}", repository}"
+        end
+      end
+    end
+    
     module Strategy
 
       # Implements the deployment strategy that keeps a cached checkout of
@@ -32,7 +41,7 @@ module Capistrano
             logger.trace "checking if the cached copy repository root matches this deploy, then updating it"
             command = "if [ -d #{repository_cache} ] && ! echo '#{configuration[:repository]}' | grep -q `svn info #{repository_cache} | grep 'Repository Root' | awk '{print $3}'`; then " + 
               "rm -rf #{repository_cache} && #{source.checkout(revision, repository_cache)}; " + 
-              "elif [ -d #{repository_cache} ]; then #{source.sync(revision, repository_cache)}; " +
+              "elif [ -d #{repository_cache} ]; then #{source.switch(revision, repository_cache)}; " +
               "else #{source.checkout(revision, repository_cache)}; fi"
             scm_run(command)
           end
