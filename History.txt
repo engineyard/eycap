@@ -1,3 +1,6 @@
+== 0.3.11 / 2008-11-09
+  * filtered_remote_cache uses svn switch
+
 == 0.3.9 / 2008-09-29
   * add reindex task for /engineyard/bin/acts_as_sphinx_searchd
   * add reindex and configure task for /engineyard/bin/ultrasphinx_searchd
