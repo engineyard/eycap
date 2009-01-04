@@ -14,11 +14,19 @@ Capistrano::Configuration.instance(:must_exist).load do
       on_rollback { run "rm -f #{backup_file}" }
       run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }
       if @environment_info['adapter'] == 'mysql'
-        run "mysqldump --add-drop-table -u #{dbuser} -h #{production_dbhost.gsub('-master', '-replica')} -p#{dbpass} #{production_database} > #{backup_file}"
-        run "mysql -u #{dbuser} -p#{dbpass} -h #{staging_dbhost} #{staging_database} < #{backup_file}"
+        run "mysqldump --add-drop-table -u #{dbuser} -h #{production_dbhost.gsub('-master', '-replica')} #{production_database} -p > #{backup_file}" do |ch, stream, out|
+           ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
+        end
+        run "mysql -u #{dbuser} -p -h #{staging_dbhost} #{staging_database} < #{backup_file}" do |ch, stream, out|
+           ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
+        end
       else
-        run "PGPASSWORD=#{dbpass} pg_dump -c -U #{dbuser} -h #{production_dbhost} -f #{backup_file} #{production_database}"
-        run "PGPASSWORD=#{dbpass} psql -U #{dbuser} -h #{staging_dbhost} -f #{backup_file} #{staging_database}"
+        run "pg_dump -W -c -U #{dbuser} -h #{production_dbhost} -f #{backup_file} #{production_database}" do |ch, stream, out|
+           ch.send_data "#{dbpass}\n" if out=~ /^Password:/
+        end
+        run "psql -W -U #{dbuser} -h #{staging_dbhost} -f #{backup_file} #{staging_database}" do |ch, stream, out|
+           ch.send_data "#{dbpass}\n" if out=~ /^Password:/
+        end
       end
       run "rm -f #{backup_file}"
     end
@@ -28,9 +36,13 @@ Capistrano::Configuration.instance(:must_exist).load do
       backup_name
       run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }
       if @environment_info['adapter'] == 'mysql'
-        run "mysqldump --add-drop-table -u #{dbuser} -h #{environment_dbhost.gsub('-master', '-replica')} -p#{dbpass} #{environment_database} | bzip2 -c > #{backup_file}.bz2"
+        run "mysqldump --add-drop-table -u #{dbuser} -h #{environment_dbhost.gsub('-master', '-replica')} -p #{environment_database} | bzip2 -c > #{backup_file}.bz2" do |ch, stream, out |
+           ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
+        end
       else
-        run "PGPASSWORD=#{dbpass} pg_dump -c -U #{dbuser} -h #{environment_dbhost} #{environment_database} | bzip2 -c > #{backup_file}.bz2"
+        run "pg_dump -W -c -U #{dbuser} -h #{environment_dbhost} #{environment_database} | bzip2 -c > #{backup_file}.bz2" do |ch, stream, out |
+           ch.send_data "#{dbpass}\n" if out=~ /^Password:/
+        end
       end
     end
     
@@ -41,11 +53,14 @@ Capistrano::Configuration.instance(:must_exist).load do
       get "#{backup_file}.bz2", "/tmp/#{application}.sql.gz"
       development_info = YAML.load_file("config/database.yml")['development']
       if development_info['adapter'] == 'mysql'
-        run_str = "bzcat /tmp/#{application}.sql.gz | mysql -u #{development_info['username']} -p#{development_info['password']} -h #{development_info['host']} #{development_info['database']}"
+        run "bzcat /tmp/#{application}.sql.gz | mysql -u #{development_info['username']} -p -h #{development_info['host']} #{development_info['database']}" do |ch, stream, out |
+          ch.send_data "#{development_info['password']}\n" if out=~ /Enter password:/
+        end
       else
-        run_str = "PGPASSWORD=#{development_info['password']} bzcat /tmp/#{application}.sql.gz | psql -U #{development_info['username']} -h #{development_info['host']} #{development_info['database']}"
+        run "bzcat /tmp/#{application}.sql.gz | psql -W -U #{development_info['username']} -h #{development_info['host']} #{development_info['database']}" do |ch, stream, out |
+           ch.send_data "#{development_info['password']}\n" if out=~ /^Password:/
+        end
       end
-      %x!#{run_str}!
     end
   end
 
