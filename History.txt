@@ -1,5 +1,6 @@
-== 0.3.12 / 2008-12-16
+== 0.4.0 / 2009-01-09
   * add passenger:restart task
+  * add apache stop, start, restart and reload tasks
 
 == 0.3.11 / 2008-11-09
   * filtered_remote_cache uses svn switch

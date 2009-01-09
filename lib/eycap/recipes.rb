@@ -4,7 +4,6 @@ require 'eycap/recipes/database'
 require 'eycap/recipes/ferret'
 require 'eycap/recipes/mongrel'
 require 'eycap/recipes/nginx'
-require 'eycap/recipes/passenger'
 require 'eycap/recipes/slice'
 require 'eycap/recipes/deploy'
 require 'eycap/recipes/sphinx'
@@ -14,6 +13,8 @@ require 'eycap/recipes/solr'
 require 'eycap/recipes/monit'
 require 'eycap/recipes/tomcat'
 require 'eycap/recipes/juggernaut'
+require 'eycap/recipes/passenger'
+require 'eycap/recipes/apache'
 
 Capistrano::Configuration.instance(:must_exist).load do
   
