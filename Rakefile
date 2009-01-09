@@ -7,7 +7,7 @@ Hoe.new('eycap', Eycap::VERSION) do |p|
   p.email = 'tech@engineyard.com'
   p.summary = 'Capistrano tasks for Engine Yard slices'
   p.description = 'A bunch of useful recipes to help deployment to Engine Yard slices'
-  p.url = 'http://eycap.rubyforge.org'
+  p.url = 'http://github.com/engineyard/eycap/tree/master'
   p.changes = p.paragraphs_of('History.txt', 0..1).join("\n\n")
   p.extra_deps << ['capistrano', '>= 2.2.0']
 end

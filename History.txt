@@ -1,4 +1,7 @@
-  * Do not display database passwords in the logs, output, etc. use stdin instead
+== 0.4.0 / 2009-01-09
+  * add passenger:restart task
+  * add apache stop, start, restart and reload tasks
+  * Don't display database passwords in the logs, output, etc. use stdin instead
 
 == 0.3.11 / 2008-11-09
   * filtered_remote_cache uses svn switch

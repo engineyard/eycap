@@ -17,7 +17,7 @@ Also included is a deployment strategy, :filtered_remote_cache, which speeds up 
 
 == SOURCE:
  
-eycaps git repo is available on GitHub, which can be browsed at:
+eycap's git repo is available on GitHub, which can be browsed at:
  
   http://github.com/engineyard/eycap
    

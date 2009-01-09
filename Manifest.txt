@@ -21,5 +21,7 @@ lib/eycap/recipes/solr.rb
 lib/eycap/recipes/sphinx.rb
 lib/eycap/recipes/templates/maintenance.rhtml
 lib/eycap/recipes/tomcat.rb
+lib/eycap/recipes/passenger.rb
+lib/eycap/recipes/apache.rb
 test/test_eycap.rb
 test/test_helper.rb

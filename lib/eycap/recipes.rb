@@ -13,6 +13,8 @@ require 'eycap/recipes/solr'
 require 'eycap/recipes/monit'
 require 'eycap/recipes/tomcat'
 require 'eycap/recipes/juggernaut'
+require 'eycap/recipes/passenger'
+require 'eycap/recipes/apache'
 
 Capistrano::Configuration.instance(:must_exist).load do
   
