@@ -1,3 +1,9 @@
+== 0.4.2 / 2009-02-11
+  * added condition to determine if the db:dump command is run against our
+  traditional offering or the new cloud offering
+  * fixed bug where if a production db host name doesn't have a -master at the
+  end it won't run the db:clone_prod_to_staging correctly
+
 == 0.4.1 / 2009-01-09
   * fixed bug for passenger:restart
 

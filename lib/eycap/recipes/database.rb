@@ -13,13 +13,20 @@ Capistrano::Configuration.instance(:must_exist).load do
       backup_name
       on_rollback { run "rm -f #{backup_file}" }
       run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }
-      if @environment_info['adapter'] == 'mysql'
+      if @environment_info['adapter'] == 'mysql' && production_dbhost.scan('-master') == true
         run "mysqldump --add-drop-table -u #{dbuser} -h #{production_dbhost.gsub('-master', '-replica')} #{production_database} -p > #{backup_file}" do |ch, stream, out|
            ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
         end
         run "mysql -u #{dbuser} -p -h #{staging_dbhost} #{staging_database} < #{backup_file}" do |ch, stream, out|
            ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
         end
+      elsif @environment_info['adapter'] == 'mysql' && production_dbhost.scan('-master') != true
+        run "mysqldump --add-drop-table -u #{dbuser} -h #{production_dbhost + '-replica'} #{production_database} -p > #{backup_file}" do |ch, stream, out|
+           ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
+        end
+        run "mysql -u #{dbuser} -p -h #{staging_dbhost} #{staging_database} < #{backup_file}" do |ch, stream, out|
+           ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
+        end   
       else
         run "pg_dump -W -c -U #{dbuser} -h #{production_dbhost} -f #{backup_file} #{production_database}" do |ch, stream, out|
            ch.send_data "#{dbpass}\n" if out=~ /^Password:/
@@ -35,9 +42,13 @@ Capistrano::Configuration.instance(:must_exist).load do
     task :dump, :roles => :db, :only => {:primary => true} do
       backup_name
       run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }
-      if @environment_info['adapter'] == 'mysql'
+      if @environment_info['adapter'] == 'mysql' && @environment_info['host'] != 'localhost' # For traditional offering
         run "mysqldump --add-drop-table -u #{dbuser} -h #{environment_dbhost.gsub('-master', '-replica')} -p #{environment_database} | bzip2 -c > #{backup_file}.bz2" do |ch, stream, out |
            ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
+        end
+      elsif @environment_info['adapter'] == 'mysql' && @environment_info['host'] == 'localhost' # For Solo offering
+        run "mysqldump --add-drop-table -u #{sql_user} -h localhost -p #{sql_pass} | bzip2 -c > #{backup_file}.bz2" do |ch, stream, out |
+          ch.send_data "#{sql_pass}\n" if out=~ /^Enter password:/
         end
       else
         run "pg_dump -W -c -U #{dbuser} -h #{environment_dbhost} #{environment_database} | bzip2 -c > #{backup_file}.bz2" do |ch, stream, out |
