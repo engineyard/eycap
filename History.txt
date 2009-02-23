@@ -1,3 +1,7 @@
+== 0.4.3 / 2009-02-11
+  * updated db:dump command for Engine Yard Solo offering, fixing a bug where 
+  the dbname wasn't included.
+
 == 0.4.2 / 2009-02-11
   * added condition to determine if the db:dump command is run against our
   traditional offering or the new cloud offering
