@@ -23,3 +23,4 @@ Gem::Specification.new do |s|
   s.add_dependency(%q<capistrano>, [">= 2.2.0"])
   s.add_dependency(%q<hoe>, [">= 1.5.1"])
 end
+
