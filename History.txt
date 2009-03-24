@@ -1,3 +1,6 @@
+== 0.4.6 / 2009-03-24
+  * fixed bug to restore clone_prod_to_staging using the compressed file
+
 == 0.4.5 / 2009-03-03
   * happy square root day!
   * added the staging restore to db:clone_prod_to_staging
