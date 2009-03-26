@@ -10,21 +10,29 @@ Capistrano::Configuration.instance(:must_exist).load do
   
     desc "Clone Production Database to Staging Database."
     task :clone_prod_to_staging, :roles => :db, :only => { :primary => true } do
+
+      # This task currently runs only on traditional EY offerings.
+      # You need to have both a production and staging environment defined in 
+      # your deploy.rb file.  
+
       backup_name
       on_rollback { run "rm -f #{backup_file}" }
-      run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }
+      run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }  
+
       if @environment_info['adapter'] == 'mysql'
-        run "mysqldump --add-drop-table -u #{dbuser} -h #{production_dbhost.gsub('-master', '-replica')} #{production_database} -p > #{backup_file}" do |ch, stream, out|
+        dbhost = @environment_info['host']
+        dbhost = environment_dbhost.sub('-master', '') + '-replica' if dbhost != 'localhost' # added for Solo offering, which uses localhost
+        run "mysqldump --add-drop-table -u #{dbuser} -h #{dbhost} -p #{environment_database} | bzip2 -c > #{backup_file}.bz2" do |ch, stream, out |
            ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
         end
-        run "mysql -u #{dbuser} -p -h #{staging_dbhost} #{staging_database} < #{backup_file}" do |ch, stream, out|
+        run "bzcat #{backup_file}.bz2 | mysql -u #{dbuser} -p -h #{staging_dbhost} #{staging_database}" do |ch, stream, out|
            ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
         end
       else
-        run "pg_dump -W -c -U #{dbuser} -h #{production_dbhost} -f #{backup_file} #{production_database}" do |ch, stream, out|
+        run "pg_dump -W -c -U #{dbuser} -h #{production_dbhost} #{production_database} | bzip2 -c > #{backup_file}.bz2" do |ch, stream, out|
            ch.send_data "#{dbpass}\n" if out=~ /^Password:/
         end
-        run "psql -W -U #{dbuser} -h #{staging_dbhost} -f #{backup_file} #{staging_database}" do |ch, stream, out|
+        run "bzcat #{backup_file}.bz2 | psql -W -U #{dbuser} -h #{staging_dbhost} #{staging_database}" do |ch, stream, out|
            ch.send_data "#{dbpass}\n" if out=~ /^Password:/
         end
       end
@@ -36,7 +44,9 @@ Capistrano::Configuration.instance(:must_exist).load do
       backup_name
       run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }
       if @environment_info['adapter'] == 'mysql'
-        run "mysqldump --add-drop-table -u #{dbuser} -h #{environment_dbhost.gsub('-master', '-replica')} -p #{environment_database} | bzip2 -c > #{backup_file}.bz2" do |ch, stream, out |
+        dbhost = @environment_info['host']
+        dbhost = environment_dbhost.sub('-master', '') + '-replica' if dbhost != 'localhost' # added for Solo offering, which uses localhost
+        run "mysqldump --add-drop-table -u #{dbuser} -h #{dbhost} -p #{environment_database} | bzip2 -c > #{backup_file}.bz2" do |ch, stream, out |
            ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
         end
       else

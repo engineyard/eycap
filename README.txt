@@ -10,6 +10,8 @@ Also included is a deployment strategy, :filtered_remote_cache, which speeds up 
 
 * capistrano (http://capify.org) > 2.0.0, but recommended with > 2.2.0
 
+* NOTE: If you're using a git repository we recommend capistrano 2.5.3 and greater.
+
 == INSTALL:
 
   $ gem sources -a http://gems.github.com/ (you only need to do this once)

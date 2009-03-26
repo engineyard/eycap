@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = %q{eycap}
-  s.version = "0.4.1"
+  s.version = "0.4.6"
 
   s.specification_version = 2 if s.respond_to? :specification_version=
 
@@ -23,3 +23,4 @@ Gem::Specification.new do |s|
   s.add_dependency(%q<capistrano>, [">= 2.2.0"])
   s.add_dependency(%q<hoe>, [">= 1.5.1"])
 end
+
