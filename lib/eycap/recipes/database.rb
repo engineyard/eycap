@@ -33,7 +33,7 @@ Capistrano::Configuration.instance(:must_exist).load do
            ch.send_data "#{dbpass}\n" if out=~ /^Password:/
         end
         run "bzcat #{backup_file}.bz2 | psql -W -U #{dbuser} -h #{staging_dbhost} #{staging_database}" do |ch, stream, out|
-           ch.send_data "#{dbpass}\n" if out=~ /^Password:/
+           ch.send_data "#{dbpass}\n" if out=~ /^Password/
         end
       end
       run "rm -f #{backup_file}"
@@ -68,7 +68,7 @@ Capistrano::Configuration.instance(:must_exist).load do
         end
       else
         run "bzcat /tmp/#{application}.sql.gz | psql -W -U #{development_info['username']} -h #{development_info['host']} #{development_info['database']}" do |ch, stream, out |
-           ch.send_data "#{development_info['password']}\n" if out=~ /^Password:/
+           ch.send_data "#{development_info['password']}\n" if out=~ /^Password/
         end
       end
     end

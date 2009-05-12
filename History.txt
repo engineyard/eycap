@@ -1,3 +1,7 @@
+== 0.4.7 / 2009-05-12
+  * fixed bug in clone_prod_to_staging and clone_to_local db tasks for postgres
+  where the regex matching the password prompt for the restore was wrong
+
 == 0.4.6 / 2009-03-24
   * fixed bug to restore clone_prod_to_staging using the compressed file
 
