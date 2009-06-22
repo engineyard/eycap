@@ -16,6 +16,21 @@ Capistrano::Configuration.instance(:must_exist).load do
       sudo "/etc/init.d/nginx stop"
     end
 
+    desc "Reload the Nginx config on the app slices."
+    task :reload , :roles => :app do
+      sudo "/etc/init.d/nginx reload"
+    end
+
+    desc "Upgrade the Nginx processes on the app slices."
+    task :upgrade , :roles => :app do
+      sudo "/etc/init.d/nginx upgrade"
+    end
+
+    desc "Test the Nginx config on the app slices."
+    task :configtest , :roles => :app do
+      sudo "/etc/init.d/nginx configtest"
+    end
+
     desc "Tail the nginx access logs for this application"
     task :tail, :roles => :app do
       run "tail -f /var/log/engineyard/nginx/#{application}.access.log" do |channel, stream, data|
