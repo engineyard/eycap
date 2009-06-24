@@ -1,4 +1,4 @@
-== 0.4.9 / 2009-06-24
+== 0.4.10 / 2009-06-24
   * using nohup on nginx start and restart
 
 == 0.4.9 / 2009-06-22
