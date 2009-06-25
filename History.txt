@@ -1,3 +1,11 @@
+== 0.4.10 / 2009-06-24
+  * using nohup on nginx start and restart
+
+== 0.4.9 / 2009-06-22
+  * added nginx reload, upgrade and configtest - thanks Randy (ydnar)
+
+== 0.4.8 / there is no 0.4.8, just like there is no spoon.
+
 == 0.4.7 / 2009-05-12
   * fixed bug in clone_prod_to_staging and clone_to_local db tasks for postgres
   where the regex matching the password prompt for the restore was wrong
