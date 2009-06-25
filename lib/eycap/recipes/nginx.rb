@@ -3,12 +3,12 @@ Capistrano::Configuration.instance(:must_exist).load do
   namespace :nginx do 
     desc "Start Nginx on the app slices."
     task :start, :roles => :app do
-      sudo "nohup /etc/init.d/nginx start > /dev/null"
+      sudo "nohup /etc/init.d/nginx start 2>&1 | cat"
     end
 
     desc "Restart the Nginx processes on the app slices."
     task :restart , :roles => :app do
-      sudo "nohup /etc/init.d/nginx restart > /dev/null"
+      sudo "nohup /etc/init.d/nginx restart 2>&1 | cat"
     end
 
     desc "Stop the Nginx processes on the app slices."
