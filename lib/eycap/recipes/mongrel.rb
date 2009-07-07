@@ -26,7 +26,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     end
 
     desc <<-DESC
-    Start mongrels in a loop, with a defer of [default] 30 seconds between each     single mongrel restart. 
+    Start mongrels in a loop, with a defer of [default] 30 seconds between each single mongrel restart. 
     DESC
     task :rolling_restart, :roles => [:app], :except => {:mongrel => false} do
 
