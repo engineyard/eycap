@@ -1,3 +1,10 @@
+== 0.4.12 / 2009-06-26
+  * removed condition for dbhost that was useless and tested db:clone_prod_to_staging
+
+== 0.4.11 / 2009-06-25
+  * changed nginx start and restart to give output to cap
+  * fixed db:clone_to_local task
+
 == 0.4.10 / 2009-06-24
   * using nohup on nginx start and restart
 

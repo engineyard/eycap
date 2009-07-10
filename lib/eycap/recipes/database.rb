@@ -21,7 +21,7 @@ Capistrano::Configuration.instance(:must_exist).load do
 
       if @environment_info['adapter'] == 'mysql'
         dbhost = @environment_info['host']
-        dbhost = environment_dbhost.sub('-master', '') + '-replica' if dbhost != 'localhost' # added for Solo offering, which uses localhost
+        dbhost = environment_dbhost.sub('-master', '') + '-replica'
         run "mysqldump --add-drop-table -u #{dbuser} -h #{dbhost} -p #{environment_database} | bzip2 -c > #{backup_file}.bz2" do |ch, stream, out |
            ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
         end
@@ -63,14 +63,11 @@ Capistrano::Configuration.instance(:must_exist).load do
       get "#{backup_file}.bz2", "/tmp/#{application}.sql.gz"
       development_info = YAML.load_file("config/database.yml")['development']
       if development_info['adapter'] == 'mysql'
-        run "bzcat /tmp/#{application}.sql.gz | mysql -u #{development_info['username']} -p -h #{development_info['host']} #{development_info['database']}" do |ch, stream, out |
-          ch.send_data "#{development_info['password']}\n" if out=~ /Enter password:/
-        end
+        run_str = "bzcat /tmp/#{application}.sql.gz | mysql -u #{development_info['username']} --password='#{development_info['password']}' -h #{development_info['host']} #{development_info['database']}"
       else
-        run "bzcat /tmp/#{application}.sql.gz | psql -W -U #{development_info['username']} -h #{development_info['host']} #{development_info['database']}" do |ch, stream, out |
-           ch.send_data "#{development_info['password']}\n" if out=~ /^Password/
-        end
+        run_str = "PGPASSWORD=#{development_info['password']} bzcat /tmp/#{application}.sql.gz | psql -U #{development_info['username']} -h #{development_info['host']} #{development_info['database']}"
       end
+      %x!#{run_str}!
     end
   end
 
