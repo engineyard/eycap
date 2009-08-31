@@ -1,6 +1,7 @@
 == 0.4.14 / 2009-08-31
   * restored functionality to remove temporary compressed sql file after db:clone_prod_to_staging
   * renamed gz extension files to bz2 in db:clone_to_local
+  * memcached: fix netcat not hanging up on a flush
 
 == 0.4.13 / 2009-07-30
   * changed Gemfile to absolute path
