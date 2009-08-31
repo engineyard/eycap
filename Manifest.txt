@@ -3,7 +3,7 @@ Manifest.txt
 README.txt
 Rakefile
 lib/capistrano/recipes/deploy/strategy/filtered_remote_cache.rb
-lib/capistrano/recipes/deploy/strategy/remote_cache.rb
+lib/capistrano/recipes/deploy/strategy/unshared_remote_cache.rb
 lib/eycap.rb
 lib/eycap/lib/ey_logger.rb
 lib/eycap/lib/ey_logger_hooks.rb
