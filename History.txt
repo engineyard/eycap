@@ -1,3 +1,6 @@
+== 0.4.15 / 2009-09-02
+  * added include in gemspec for bundler file
+
 == 0.4.14 / 2009-08-31
   * restored functionality to remove temporary compressed sql file after db:clone_prod_to_staging
   * renamed gz extension files to bz2 in db:clone_to_local
