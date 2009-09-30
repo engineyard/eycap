@@ -1,3 +1,6 @@
+== 0.4.16 / 2009-09-30
+  * apps ping weather app before and after each deploy
+
 == 0.4.15 / 2009-09-02
   * added include in gemspec for bundler file
 
