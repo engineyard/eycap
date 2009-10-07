@@ -4,10 +4,10 @@ require './lib/eycap'
 
 Hoe.new('eycap', Eycap::VERSION) do |p|
   p.author = 'Engine Yard'
-  p.email = 'tech@engineyard.com'
-  p.summary = 'Capistrano tasks for Engine Yard slices'
-  p.description = 'A bunch of useful recipes to help deployment to Engine Yard slices'
-  p.url = 'http://github.com/engineyard/eycap/tree/master'
+  p.email = 'appsupport@engineyard.com'
+  p.summary = 'Capistrano tasks for Engine Yard private cloud slices'
+  p.description = 'A bunch of useful recipes to help deployment to Engine Yard private cloud slices'
+  p.url = 'http://github.com/engineyard/eycap'
   p.changes = p.paragraphs_of('History.txt', 0..1).join("\n\n")
   p.extra_deps << ['capistrano', '>= 2.2.0']
 end

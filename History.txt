@@ -1,3 +1,6 @@
+== 0.5.0 / 2009-10-07
+  * moved from github to gemcutter for hosting.
+
 == 0.4.16 / 2009-09-30
   * apps ping weather app before and after each deploy
 

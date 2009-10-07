@@ -2,7 +2,7 @@
 
 == DESCRIPTION:
 
-Engine Yard capistrano tasks for use specifically with Engine Yard slices. They include convenience methods for managed a database, mongrel, nginx or other services.
+Engine Yard capistrano tasks for use specifically with Engine Yard private cloud slices. They include convenience methods for managed a database, mongrel, nginx or other services.
 
 Also included is a deployment strategy, :filtered_remote_cache, which speeds up deployment like :remote_cache, but filters out .svn directory which are a security risk and write slowly to shared disks.
 
@@ -14,8 +14,9 @@ Also included is a deployment strategy, :filtered_remote_cache, which speeds up 
 
 == INSTALL:
 
-  $ gem sources -a http://gems.github.com/ (you only need to do this once)
-  $ gem install engineyard-eycap
+  $ gem install gemcutter  # installs the gemcutter gem
+  $ gem tumble             # puts gemcutter as your top source
+  $ gem install eycap      # installs the latest eycap version
 
 == SOURCE:
  
@@ -29,13 +30,13 @@ and cloned from:
 
 == USAGE:
 
-= Include in capistrano
+=== Include in capistrano
 
 In your deploy.rb, simply include this line at the top:
 
 require 'eycap/recipes'
 
-= Filtered remote cache
+=== Filtered remote cache
 
 To use filtered_remote_cache, simply:
 
@@ -43,7 +44,7 @@ set :deploy_via, :filtered_remote_cache
 
 == LICENSE:
 
-Copyright (c) 2008 Engine Yard
+Copyright (c) 2008-2009 Engine Yard
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
