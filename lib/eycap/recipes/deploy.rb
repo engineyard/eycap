@@ -127,17 +127,17 @@ Capistrano::Configuration.instance(:must_exist).load do
     namespace :notify do
       task :start, :roles => :app do
         begin
-          run %(curl -X POST -d "application=#{application rescue 'unknown'}" http://weather.engineyard.com/`hostname`/deploy_start)
+          run %(curl -X POST -d "application=#{application rescue 'unknown'}" http://weather.engineyard.com/`hostname`/deploy_start -fs)
         rescue
-          puts "Deploy notification failed"
+          puts "Warning: We couldn't notify EY of your deploy, but don't worry, everything is fine"
         end
       end
 
       task :stop, :roles => :app do
         begin
-          run %(curl -X POST -d "application=#{application rescue 'unknown'}" http://weather.engineyard.com/`hostname`/deploy_stop)
+          run %(curl -X POST -d "application=#{application rescue 'unknown'}" http://weather.engineyard.com/`hostname`/deploy_stop -fs)
         rescue
-          puts "Deploy notification failed"
+          puts "Warning: We couldn't notify EY of your deploy finishing, but don't worry, everything is fine"
         end
       end
     end
