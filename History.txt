@@ -1,3 +1,6 @@
+== 0.5.1 / 2009-11-12
+  * using bundler's cache instead of symlinking on each deploy.
+
 == 0.5.0 / 2009-10-07
   * moved from github to gemcutter for hosting.
 
