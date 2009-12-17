@@ -16,6 +16,7 @@ require 'eycap/recipes/juggernaut'
 require 'eycap/recipes/passenger'
 require 'eycap/recipes/apache'
 require 'eycap/recipes/bundler'
+require 'eycap/recipes/ssl'
 
 Capistrano::Configuration.instance(:must_exist).load do
   default_run_options[:pty] = true if respond_to?(:default_run_options)
