@@ -1,3 +1,6 @@
+== 0.5.2 / 2009-12-17
+  * renamed task cap slice:tail_production_logs to cap slice:tail_environment_logs
+
 == 0.5.1 / 2009-11-12
   * using bundler's cache instead of symlinking on each deploy.
 
