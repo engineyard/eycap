@@ -1,19 +1,16 @@
 Capistrano::Configuration.instance(:must_exist).load do
 
   namespace :ssl do    
-    namespace :create do
-      desc "create 1024 bit csr and key for ssl certificates"
-      task :short, :roles => :app, :except => {:no_release => true} do
-        sudo "mkdir -p /data/ssl/"
-        run "cd /data/ssl/"
-        run "openssl req -new -nodes -days 365 -newkey rsa:1024 -subj '/C=US/ST=Oregon/L=Portland/CN=www.madboa.com' -keyout #{application}.com.key -out #{application}.com.csr"
-      end
-      
-      desc "create 2048 bit csr and key for ssl certificates"
-      task :long, :roles => :app, :except => {:no_release => true} do
-        sudo "mkdir -p /data/ssl/"
-        run "openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout #{application}.com.key -out #{application}.com.csr"
-      end
-    end    
+    desc "create csr and key for ssl certificates"
+    task :create, :roles => :app, :except => {:no_release => true} do
+      sudo "mkdir -p /data/ssl/"
+      run "cd /data/ssl/"
+      set(:length) { Capistrano::CLI.ui.ask("key length (1024 or 2048): ") }
+      set(:country) { Capistrano::CLI.ui.ask("Country Code (2 letters): ") }
+      set(:state) { Capistrano::CLI.ui.ask("State/Province: ") }
+      set(:city) { Capistrano::CLI.ui.ask("City: ") }
+      set(:domain) { Capistrano::CLI.ui.ask("Common Name (domain): ") }
+      run "openssl req -new -nodes -days 365 -newkey rsa:#{length} -subj '/C=#{country}/ST=#{state}/L=#{city}/CN=#{domain}' -keyout #{domain}.com.key -out #{domain}.com.csr"
+    end   
   end
 end
