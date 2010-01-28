@@ -1,3 +1,6 @@
+== 0.5.3 / 2009-12-17
+  * created task cap ssl:create
+
 == 0.5.2 / 2009-12-17
   * renamed task cap slice:tail_production_logs to cap slice:tail_environment_logs
 
