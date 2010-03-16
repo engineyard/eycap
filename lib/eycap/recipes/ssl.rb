@@ -2,7 +2,7 @@ Capistrano::Configuration.instance(:must_exist).load do
 
   namespace :ssl do    
     desc "create csr and key for ssl certificates"
-    task :create, :roles => :app, :except => {:no_release => true} do
+    task :create, :roles => :app, :except => {:no_release => true} do dddd d
       sudo "mkdir -p /data/ssl/"
       set(:length) { Capistrano::CLI.ui.ask("key length (1024 or 2048): ") }
       set(:country) { Capistrano::CLI.ui.ask("Country Code (2 letters): ") }
