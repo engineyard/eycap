@@ -1,8 +1,13 @@
+== 0.5.5 / 2009-3-16
+  * fixed 2 bugs that are in 0.5.4 with the SSL and bundler recipes
+	* use this version with bundler version 0.9.2
+
 == 0.5.4 / 2009-3-16
   * fixed gem bundler issue
 
 == 0.5.3 / 2009-1-27
   * created task cap ssl:create
+	* use this version with bundler version 0.8
 
 == 0.5.2 / 2009-12-17
   * renamed task cap slice:tail_production_logs to cap slice:tail_environment_logs
