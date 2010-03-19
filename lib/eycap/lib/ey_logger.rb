@@ -63,7 +63,7 @@ module Capistrano
         self.close
 
         hooks = [:any]
-        hooks << self.successful? ? :success : :failure
+        hooks << (self.successful? ? :success : :failure)
         puts "Executing Post Processing Hooks"
         hooks.each do |h|
           @_post_process_hooks[h].each do |key|
