@@ -62,7 +62,7 @@ Capistrano::Configuration.instance(:must_exist).load do
         run_str = "PGPASSWORD=#{development_info['password']} gunzip < /tmp/#{application}.sql.gz | psql -U #{development_info['username']} -h #{development_info['host']} #{development_info['database']}"
       end
       %x!#{run_str}!
-      run "rum -f #{backup_file}.gz"
+      run "rm -f #{backup_file}.gz"
     end
   end
 
