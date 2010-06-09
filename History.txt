@@ -1,3 +1,10 @@
+== 0.5.6 / 2010-06-07
+  * change database tasks to use gzip instead of bzip2 to reduce timeout failures
+  * fix database task backup file naming to ensure consistent naming through all tasks
+  * Removal of temporary backup file in clone_to_local database task
+  * DRY'd database tasks a bit
+  * added dependency for hoe version <= 2.3.3
+
 == 0.5.5 / 2009-3-16
   * fixed 2 bugs that are in 0.5.4 with the SSL and bundler recipes
 	* use this version with bundler version 0.9.2
