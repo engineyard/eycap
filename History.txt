@@ -1,5 +1,6 @@
-== 0.5.6 / 2009-4-29
+== 0.5.6 / 2009-6-17
   * updated bundler task so it won't install test or development gems
+  * updated database tasks - based on Tyler Poland's update
 	
 == 0.5.5 / 2009-3-16
   * fixed 2 bugs that are in 0.5.4 with the SSL and bundler recipes
