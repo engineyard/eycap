@@ -56,7 +56,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       dump
       get "#{backup_file}.gz", "/tmp/#{application}.sql.gz"
       development_info = YAML.load_file("config/database.yml")['development']
-      if development_info['adapter'] == 'mysql'
+      if ['mysql', 'mysql2'].include? development_info['adapter']
         run_str = "gunzip < /tmp/#{application}.sql.gz | mysql -u #{development_info['username']} --password='#{development_info['password']}' -h #{development_info['host']} #{development_info['database']}"
       else
         run_str = "PGPASSWORD=#{development_info['password']} gunzip < /tmp/#{application}.sql.gz | psql -U #{development_info['username']} -h #{development_info['host']} #{development_info['database']}"
