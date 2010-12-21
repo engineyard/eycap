@@ -1,4 +1,7 @@
-== 0.5.7 / 2009-6-17
+== 0.5.8 / 2009-12-21
+  * updated database clone to local task - adding ability to use mysql2 adapter.
+
+== 0.5.7 / 2009-12-21
   * updated database tasks - new xCloud infrastructure requires staging databases to use master not replica for tasks
 
 == 0.5.6 / 2009-6-17
