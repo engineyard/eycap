@@ -12,6 +12,7 @@ lib/eycap/recipes/backgroundrb.rb
 lib/eycap/recipes/database.rb
 lib/eycap/recipes/bundler.rb
 lib/eycap/recipes/deploy.rb
+lib/eycap/recipes/delayed_job.rb
 lib/eycap/recipes/ferret.rb
 lib/eycap/recipes/juggernaut.rb
 lib/eycap/recipes/memcached.rb
