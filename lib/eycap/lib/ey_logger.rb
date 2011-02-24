@@ -41,7 +41,7 @@ module Capistrano
       @_deploy_log_file = File.open(@_log_file_path, "w") if @_deploy_log_file.nil?
        
       indent = "%*s" % [Logger::MAX_LEVEL, "*" * (Logger::MAX_LEVEL - level)]
-      message.each do |line|
+      message.each_line do |line|
         if line_prefix
           @_deploy_log_file << "#{indent} [#{line_prefix}] #{line.strip}\n"
         else
