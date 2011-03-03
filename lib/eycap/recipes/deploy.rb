@@ -126,6 +126,7 @@ Capistrano::Configuration.instance(:must_exist).load do
 
     namespace :notify do
       task :start, :roles => :app do
+        return
         begin
           run %(curl -X POST -d "application=#{application rescue 'unknown'}" http://weather.engineyard.com/`hostname`/deploy_start -fs)
         rescue
@@ -134,6 +135,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       end
 
       task :stop, :roles => :app do
+        return
         begin
           run %(curl -X POST -d "application=#{application rescue 'unknown'}" http://weather.engineyard.com/`hostname`/deploy_stop -fs)
         rescue
