@@ -1,9 +1,15 @@
+== 0.5.12 / 2011-03-07
+  * turned off EY weather notification.
+
 == 0.5.11 / 2011-02-16
   * changed the exception variable for DJ recipe
+
 == 0.5.10 / 2011-02-16
   * added Delayed Job monit restart commands
+
 == 0.5.9 / 2011-01-28
   * bug fix for bundle install command
+
 == 0.5.8 / 2009-12-21
   * updated database clone to local task - adding ability to use mysql2 adapter.
 
