@@ -126,7 +126,7 @@ Capistrano::Configuration.instance(:must_exist).load do
 
     namespace :notify do
       task :start, :roles => :app do
-        return
+        return  # disable weather for now. eycap >= 0.5.12
         begin
           run %(curl -X POST -d "application=#{application rescue 'unknown'}" http://weather.engineyard.com/`hostname`/deploy_start -fs)
         rescue
@@ -135,7 +135,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       end
 
       task :stop, :roles => :app do
-        return
+        return  # disable weather for now. 0.5.12
         begin
           run %(curl -X POST -d "application=#{application rescue 'unknown'}" http://weather.engineyard.com/`hostname`/deploy_stop -fs)
         rescue
