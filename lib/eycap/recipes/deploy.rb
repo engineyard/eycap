@@ -123,29 +123,6 @@ Capistrano::Configuration.instance(:must_exist).load do
         run "if [ -f #{shared_path}/system/maintenance.html.custom ]; then cp #{shared_path}/system/maintenance.html.custom #{maint_file}; else cp #{shared_path}/system/maintenance.html.tmp #{maint_file}; fi"
       end
     end
-
-    namespace :notify do
-      task :start, :roles => :app do
-        begin
-          run %(curl -X POST -d "application=#{application rescue 'unknown'}" http://weather.engineyard.com/`hostname`/deploy_start -fs)
-        rescue
-          puts "Warning: We couldn't notify EY of your deploy, but don't worry, everything is fine"
-        end
-      end
-
-      task :stop, :roles => :app do
-        begin
-          run %(curl -X POST -d "application=#{application rescue 'unknown'}" http://weather.engineyard.com/`hostname`/deploy_stop -fs)
-        rescue
-          puts "Warning: We couldn't notify EY of your deploy finishing, but don't worry, everything is fine"
-        end
-      end
-    end
-  end
-
-  ["deploy", "deploy:long"].each do |tsk|
-    before(tsk, "deploy:notify:start")
-    after(tsk, "deploy:notify:stop")
   end
 
 end
