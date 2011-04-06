@@ -27,5 +27,6 @@ lib/eycap/recipes/tomcat.rb
 lib/eycap/recipes/passenger.rb
 lib/eycap/recipes/apache.rb
 lib/eycap/recipes/ssl.rb
+lib/eycap/recipes/resque.rb
 test/test_eycap.rb
 test/test_helper.rb

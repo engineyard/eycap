@@ -1,3 +1,6 @@
+== 0.5.14 / 2011-04-06
+  * Added resque recipe.
+
 == 0.5.13 / 2011-03-07
   * turned off EY weather notification.
 

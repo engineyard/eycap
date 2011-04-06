@@ -44,7 +44,7 @@ set :deploy_via, :filtered_remote_cache
 
 == LICENSE:
 
-Copyright (c) 2008-2009 Engine Yard
+Copyright (c) 2008-2011 Engine Yard
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
