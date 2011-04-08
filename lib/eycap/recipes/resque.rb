@@ -11,7 +11,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     task :symlink, :roles => [:app], :only => {:resque => true} do
       run "if [ -f #{shared_path}/config/resque.yml ]; then ln -nfs #{shared_path}/config/resque.yml #{latest_release}/config/resque.yml; fi"
     end
-    after "deploy:update_code", "resque:symlink"
+    after "deploy:symlink_configs", "resque:symlink"
   end 
   
 end
