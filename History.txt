@@ -1,3 +1,6 @@
+== 0.5.15 / 2011-04-08
+  * Added mysql2 support for database clone recipes.
+
 == 0.5.14 / 2011-04-06
   * Added resque recipe.
 
