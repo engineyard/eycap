@@ -1,3 +1,7 @@
+== 0.5.16 / 2011-04-08
+  * Added improvement for postgres db:clone_to_local recipe.
+  * Added correct requirement and symlink changes for resque recipe.
+
 == 0.5.15 / 2011-04-08
   * Added mysql2 support for database clone recipes.
 
