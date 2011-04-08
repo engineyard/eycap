@@ -19,7 +19,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }
       dump
 
-      if @environment_info['adapter'] == 'mysql'
+      if ['mysql', 'mysql2'].include? @environment_info['adapter']
         run "gunzip < #{backup_file}.gz | mysql -u #{dbuser} -p -h #{staging_dbhost} #{staging_database}" do |ch, stream, out|
            ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
         end
@@ -37,7 +37,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       on_rollback { run "rm -f #{backup_file}" }
       run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }
       
-      if @environment_info['adapter'] == 'mysql'
+      if ['mysql', 'mysql2'].include? @environment_info['adapter']
         dbhost = @environment_info['host']
         if rails_env == "production"
           dbhost = environment_dbhost.sub('-master', '') + '-replica' if dbhost != 'localhost' # added for Solo offering, which uses localhost   
