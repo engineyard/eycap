@@ -1,3 +1,5 @@
+require 'erb'
+
 Capistrano::Configuration.instance(:must_exist).load do
 
   namespace :db do
@@ -7,7 +9,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       backup_time = [now.year,now.month,now.day,now.hour,now.min,now.sec].join('-')
       set :backup_file, "#{shared_path}/db_backups/#{environment_database}-snapshot-#{backup_time}.sql"
     end
-  
+
     desc "Clone Production Database to Staging Database."
     task :clone_prod_to_staging, :roles => :db, :only => { :primary => true } do
 
@@ -30,7 +32,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       end
       run "rm -f #{backup_file}.gz"
     end
-  
+
     desc "Backup your MySQL or PostgreSQL database to shared_path+/db_backups"
     task :dump, :roles => :db, :only => {:primary => true} do
       backup_name unless exists?(:backup_file)
@@ -40,7 +42,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       if ['mysql', 'mysql2'].include? @environment_info['adapter']
         dbhost = @environment_info['host']
         if rails_env == "production"
-          dbhost = environment_dbhost.sub('-master', '') + '-replica' if dbhost != 'localhost' # added for Solo offering, which uses localhost   
+          dbhost = environment_dbhost.sub('-master', '') + '-replica' if dbhost != 'localhost' # added for Solo offering, which uses localhost
         end
         run "mysqldump --add-drop-table -u #{dbuser} -h #{dbhost} -p #{environment_database} | gzip -c > #{backup_file}.gz" do |ch, stream, out |
            ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
@@ -51,17 +53,22 @@ Capistrano::Configuration.instance(:must_exist).load do
         end
       end
     end
-    
+
     desc "Sync your production database to your local workstation"
     task :clone_to_local, :roles => :db, :only => {:primary => true} do
       backup_name unless exists?(:backup_file)
       dump
       get "#{backup_file}.gz", "/tmp/#{application}.sql.gz"
-      development_info = YAML.load_file("config/database.yml")['development']
+      development_info = YAML.load(ERB.new(File.read('config/database.yml')).result)['development']
+
       if ['mysql', 'mysql2'].include? development_info['adapter']
         run_str = "gunzip < /tmp/#{application}.sql.gz | mysql -u #{development_info['username']} --password='#{development_info['password']}' -h #{development_info['host']} #{development_info['database']}"
       else
-        run_str = "PGPASSWORD=#{development_info['password']} gunzip < /tmp/#{application}.sql.gz | psql -U #{development_info['username']} -h #{development_info['host']} #{development_info['database']}"
+        run_str  = ""
+        run_str += "PGPASSWORD=#{development_info['password']} " if development_info['password']
+        run_str += "gunzip < /tmp/#{application}.sql.gz | psql -U #{development_info['username']} "
+        run_str += "-h #{development_info['host']} "             if development_info['host']
+        run_str += development_info['database']
       end
       %x!#{run_str}!
       run "rm -f #{backup_file}.gz"
