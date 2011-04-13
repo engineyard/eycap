@@ -1,3 +1,6 @@
+== 0.5.17 / 2011-04-13
+  * Fixed it so resque:restart is not called for any deploy.
+
 == 0.5.16 / 2011-04-08
   * Added improvement for postgres db:clone_to_local recipe.
   * Added correct requirement and symlink changes for resque recipe.
