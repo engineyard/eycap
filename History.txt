@@ -1,3 +1,8 @@
+== 0.5.18 / 2011-05-24
+  * Added unicorn recipe to stop/start/restart.
+  * Fix for eylogger and ruby 1.9.x.
+  * Changed resque restart to sudo instead of run.
+
 == 0.5.17 / 2011-04-13
   * Fixed it so resque:restart is not called for any deploy.
 
