@@ -17,5 +17,13 @@ Capistrano::Configuration.instance(:must_exist).load do
         break if stream == :err    
       end
     end
+    desc "Tail the apache logs for your environment"
+    task :tail_apache_logs, :roles => [:app, :web] do
+      run "tail -f /var/log/apache2/#{application}.*.access.log" do |channel, stream, data|
+        puts # line break
+        puts "#{channel[:server]} -> #{data}"
+        break if stream == :err
+      end
+    end
   end
 end
