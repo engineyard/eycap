@@ -1,7 +1,9 @@
 == 0.5.18 / 2011-05-24
-  * Added unicorn recipe to stop/start/restart.
-  * Fix for eylogger and ruby 1.9.x.
-  * Changed resque restart to sudo instead of run.
+  * Added task to tail apache logs. (lightcap)
+  * Using --binstubs to put executables in app_root/bin. (lightcap)
+  * Added unicorn recipe to stop/start/restart. (timo3377)
+  * Fix for eylogger and ruby 1.9.x. (atavistock)
+  * Changed resque restart to sudo instead of run. (mdolian)
 
 == 0.5.17 / 2011-04-13
   * Fixed it so resque:restart is not called for any deploy.

@@ -14,8 +14,6 @@ Also included is a deployment strategy, :filtered_remote_cache, which speeds up 
 
 == INSTALL:
 
-  $ gem install gemcutter  # installs the gemcutter gem
-  $ gem tumble             # puts gemcutter as your top source
   $ gem install eycap      # installs the latest eycap version
 
 == SOURCE:
