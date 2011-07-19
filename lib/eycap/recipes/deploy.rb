@@ -54,7 +54,7 @@ Capistrano::Configuration.instance(:must_exist).load do
         else raise ArgumentError, "unknown migration target #{migrate_target.inspect}"
         end
  
-      run "if [ -f #{release_path}/Gemfile ] ; then cd #{directory}; bundle exec #{rake} #{framework.upcase}_ENV=#{app_env} #{migrate_env} db:migrate ; else cd #{directory}; #{rake} #{framework.upcase}_ENV=#{app_env} #{migrate_env} db:migrate ; fi"
+      run "if [ -f #{release_path}/Gemfile ] ; then cd #{directory}; #{rake} #{framework.upcase}_ENV=#{app_env} #{migrate_env} db:migrate ; else cd #{directory}; #{rake} #{framework.upcase}_ENV=#{app_env} #{migrate_env} db:migrate ; fi"
     end
   
     desc "Display the maintenance.html page while deploying with migrations. Then it restarts and enables the site again."
