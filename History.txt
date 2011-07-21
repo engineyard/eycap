@@ -1,3 +1,7 @@
+== 0.5.20 / 2011-07-21
+  * merged pull request #25 - added :except clause for non-nginx app servers
+  * merged pull request #24 - exclude 'test' and 'development' in bundler
+
 == 0.5.19 / 2011-07-19 
   * Removed redundant bundle exec from rake db:migrate task as bundler will inject 'bundle exec rake' it since 1.0.8. 
 
