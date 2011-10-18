@@ -33,7 +33,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       on_rollback { run "rm -f #{backup_file}" }
       run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }
       
-      run "mongodump -d #{environment_database} | gzip -c > #{backup_file}.gz" do
+      run "mongodump -o #{backup_name} -d #{environment_database};  tar -cz #{backup_name} > #{backup_name}.gz" do
       if  "mongo --quiet --eval 'printjson(rs.isMaster()).ismaster' | grep '\"ismaster\" : false'"
       end
     end
