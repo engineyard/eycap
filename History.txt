@@ -1,3 +1,7 @@
+== 0.5.22 / 2011-12-02
+	* merged pull request #28 - only perform the bundler.bundle_gems task on app servers that handle releases
+	* merged pull request #30 - fix for race condition where binstubs is on an NFS volume
+
 == 0.5.21 / 2011-11-29
 	* merged pull request #26 - symlink ey_bundler_binstubs to bin
 
