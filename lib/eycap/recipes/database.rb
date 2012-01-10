@@ -10,7 +10,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       set :backup_file, "#{shared_path}/db_backups/#{environment_database}-snapshot-#{backup_time}.sql"
     end
 
-    desc "Clone Production Database to Staging Database."
+    desc "Clone Production MySQL, PostgresSQL or MongoDB database to staging database."
     task :clone_prod_to_staging, :roles => :db, :only => { :primary => true } do
 
       # This task currently runs only on traditional EY offerings.
@@ -18,43 +18,63 @@ Capistrano::Configuration.instance(:must_exist).load do
       # your deploy.rb file.
 
       backup_name unless exists?(:backup_file)
-      run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }
       dump
-
-      if ['mysql', 'mysql2'].include? @environment_info['adapter']
-        run "gunzip < #{backup_file}.gz | mysql -u #{dbuser} -p -h #{staging_dbhost} #{staging_database}" do |ch, stream, out|
-           ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
+      
+      if remote_file_exists?("#{shared_path}/config/mongoid.yml") then
+        backup_file.slice!(".sql")
+        run "tar xf #{backup_file}.tar && cd #{backup_file} && mongorestore -h #{staging_dbhost} -u #{dbuser} -p #{dbpass} -d #{staging_database} --drop" do |ch, stream, out|
+          ch.send_data "#{dbpass}\n" if out=~ /^Password/
         end
       else
-        run "gunzip < #{backup_file}.gz | psql -W -U #{dbuser} -h #{staging_dbhost} #{staging_database}" do |ch, stream, out|
-           ch.send_data "#{dbpass}\n" if out=~ /^Password/
+        run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }
+
+        if ['mysql', 'mysql2'].include? @environment_info['adapter']
+          run "gunzip < #{backup_file}.gz | mysql -u #{dbuser} -p -h #{staging_dbhost} #{staging_database}" do |ch, stream, out|
+            ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
+          end
+        else
+          run "gunzip < #{backup_file}.gz | psql -W -U #{dbuser} -h #{staging_dbhost} #{staging_database}" do |ch, stream, out|
+            ch.send_data "#{dbpass}\n" if out=~ /^Password/
+          end
         end
       end
       run "rm -f #{backup_file}.gz"
     end
 
-    desc "Backup your MySQL or PostgreSQL database to shared_path+/db_backups"
+    desc "Backup your MySQL, PostgreSQL or MongoDB database to shared_path+/db_backups"
     task :dump, :roles => :db, :only => {:primary => true} do
+      
+      # Updated for MongoDB:
+      # If you wish to dump from a Mongo slave, set :environment_slave_dbhost in the role
+      
       backup_name unless exists?(:backup_file)
       on_rollback { run "rm -f #{backup_file}" }
-      run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }
       
-      if ['mysql', 'mysql2'].include? @environment_info['adapter']
-        dbhost = @environment_info['host']
-        if rails_env == "production"
-          dbhost = environment_dbhost.sub('-master', '') + '-replica' if dbhost != 'localhost' # added for Solo offering, which uses localhost
-        end
-        run "mysqldump --add-drop-table -u #{dbuser} -h #{dbhost} -p #{environment_database} | gzip -c > #{backup_file}.gz" do |ch, stream, out |
-           ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
-        end
-      else
-        run "pg_dump -W -c -U #{dbuser} -h #{environment_dbhost} #{environment_database} | gzip -c > #{backup_file}.gz" do |ch, stream, out |
-           ch.send_data "#{dbpass}\n" if out=~ /^Password:/
+      if remote_file_exists?("#{shared_path}/config/mongoid.yml") then
+        backup_file.slice!(".sql")
+        set :environment_slave_dbhost, environment_dbhost unless exists?(:environment_slave_dbhost)
+        run "mongodump -o #{backup_file} -d #{environment_database} --host #{environment_slave_dbhost} -u#{dbuser} -p #{dbpass}"
+        run "cd / && tar cf #{backup_file}.tar #{backup_file[1..-1]}/*"
+      else 
+        run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }
+      
+        if ['mysql', 'mysql2'].include? @environment_info['adapter']
+          dbhost = @environment_info['host']
+          if rails_env == "production"
+            dbhost = environment_dbhost.sub('-master', '') + '-replica' if dbhost != 'localhost' # added for Solo offering, which uses localhost
+          end
+          run "mysqldump --add-drop-table -u #{dbuser} -h #{dbhost} -p #{environment_database} | gzip -c > #{backup_file}.gz" do |ch, stream, out |
+             ch.send_data "#{dbpass}\n" if out=~ /^Enter password:/
+          end
+        else
+          run "pg_dump -W -c -U #{dbuser} -h #{environment_dbhost} #{environment_database} | gzip -c > #{backup_file}.gz" do |ch, stream, out |
+             ch.send_data "#{dbpass}\n" if out=~ /^Password:/
+          end
         end
       end
     end
 
-    desc "Sync your production database to your local workstation"
+    desc "Sync your production database to your local workstation - MySQL and PostgresSQL only"
     task :clone_to_local, :roles => :db, :only => {:primary => true} do
       backup_name unless exists?(:backup_file)
       dump
