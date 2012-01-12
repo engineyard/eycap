@@ -25,6 +25,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       
       if remote_file_exists?("#{shared_path}/config/mongoid.yml") then
         backup_file.slice!(".sql")
+        dbstr = exists?(:dbuser) ? "-u #{dbuser} -p #{dbpass}" : ""
         run "tar xf #{backup_file}.tar && cd #{backup_file}"
         run "mongo #{staging_database} -h #{staging_dbhost} -h #{staging_dbhost} --eval 'db.dropDatabase()'"
         run "mongorestore -h #{staging_dbhost} -h #{staging_dbhost}-d #{staging_database} --drop #{backup_file}/#{production_database}"
@@ -56,8 +57,9 @@ Capistrano::Configuration.instance(:must_exist).load do
       
       if remote_file_exists?("#{shared_path}/config/mongoid.yml") then
         backup_file.slice!(".sql")
+        dbstr = exists?(:dbuser) ? "-u #{dbuser} -p #{dbpass}" : ""
         set :environment_slave_dbhost, environment_dbhost unless exists?(:environment_slave_dbhost)
-        run "mongodump -o #{backup_file} -d #{environment_database} --host #{environment_slave_dbhost} -u #{dbuser} -p #{dbpass}"
+        run "mongodump -o #{backup_file} -d #{environment_database} --host #{environment_slave_dbhost} #{dbstr}"
         run "cd / && tar cf #{backup_file}.tar #{backup_file[1..-1]}/*"
       else 
         run("cat #{shared_path}/config/database.yml") { |channel, stream, data| @environment_info = YAML.load(data)[rails_env] }
