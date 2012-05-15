@@ -2,29 +2,61 @@
 
 ## Description
 
-The Engine Yard capistrano tasks are for use specifically with Engine Yard Managed.  They include convenience methods for managed a database, mongrel, nginx or other services.
+The Engine Yard capistrano tasks are for use specifically with Engine Yard Managed services.  But can be used as examples for building other tasks as well.
 
 ## Requirements
 
-* capistrano (http://capify.org) > 2.0.0, but recommended with > 2.2.0
+* [Capistrano](https://github.com/capistrano/capistrano) >= 2.2.0
 
-* NOTE: If you're using a git repository we recommend capistrano 2.5.3 and greater.
+* NOTE: When using a git repository use Capistrano >= 2.5.3.
 
 ## Install
 
-    $ gem install eycap      # installs the latest eycap version
+    $ gem install eycap
 
 ## Usage
 
-Your deploy.rb file is provided for you when you are setup by our engineers.  In order to deploy you'll need to do the normal capistrano steps to "capify" your site.  But you'll replace the auto-generated deploy.rb file with the one Engine Yard provides.
+Your initial deploy.rb will be provided for you when your servers are provisioned on Engine Yard Managed.  In order to deploy your application, you can go to the `RAILS_ROOT` folder and run:
 
-From there you'll be able to deploy to your staged environment like so:
+    $ capify .
+
+This generates the `Capfile` and the `config/deploy.rb` file for you.  You'll replace the `config/deploy.rb` file with the `deploy.rb` given to you by Engine Yard.
+
+For deploying Rails 3.1 or greater apps using the [asset pipeline](wiki/Asset-Pipeline) read more on the linked page.
+
+### Deploying to Environment
+
+To ensure your environments are ready to deploy, check on staging.
+
+    $ cap staging deploy:check
+
+This will determine if all requirements are met to deploy.  Sometimes if the default folders are not setup you may be able to repair by running:
+
+	$ cap staging deploy:setup
+
+If you cannot get `deploy:check` to pass, please open a [new support ticket](https://support.cloud.engineyard.com/tickets/new) and let us know.
+
+Now you're ready to do a test deploy.
+
+Optionally, `cap deploy:cold` will run your migrations and start (instead of restart) your app server.  
+
+    $ cap staging deploy:cold
+
+Or if you have already dumped a copy of your data to staging or do not want to run migrations you can simply do a deploy.
+
+    $ cap staging deploy
+
+And to do all this on production, just change the environment name and you'll be all set.
 
     $ cap production deploy
+
+## Eycap Commands
 
 For a list of all available commands, run:
 
     $ cap -T
+
+This will show you not only the default capistrano commands but also the ones you get by including the eycap gem.    
 
 ## Pull Requests
  
@@ -32,8 +64,7 @@ If you'd like to contribute to the eycap gem please create a fork, then send a p
 
 ## Issues
 
-When you run into a problem please check the issues to see if one has been reported.  If not, please report the issue and we'll get to work on fixing it. 
-
+When you run into a problem please check the [issues](/issues) to see if one has been reported.  If not, please report the issue and we'll get to work on fixing it. 
 ## License
 
 Copyright (c) 2008-2012 Engine Yard
