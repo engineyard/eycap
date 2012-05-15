@@ -22,7 +22,7 @@ Your initial deploy.rb will be provided for you when your servers are provisione
 
 This generates the `Capfile` and the `config/deploy.rb` file for you.  You'll replace the `config/deploy.rb` file with the `deploy.rb` given to you by Engine Yard.
 
-For deploying Rails 3.1 or greater apps using the [asset pipeline](/wiki/Asset-Pipeline) read more on the linked page.
+For deploying Rails 3.1 or greater apps using the [asset pipeline](https://github.com/engineyard/eycap/wiki/Asset-Pipeline) read more on the linked page.
 
 ### Deploying to Environment
 
