@@ -1,3 +1,3 @@
 module Eycap
-  VERSION = '0.5.23'
+  VERSION = '0.5.22'
 end
