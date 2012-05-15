@@ -1,48 +1,42 @@
-= eycap
+# eycap
 
-== DESCRIPTION:
+## Description
 
-Engine Yard capistrano tasks for use specifically with Engine Yard private cloud slices. They include convenience methods for managed a database, mongrel, nginx or other services.
+The Engine Yard capistrano tasks are for use specifically with Engine Yard Managed.  They include convenience methods for managed a database, mongrel, nginx or other services.
 
-Also included is a deployment strategy, :filtered_remote_cache, which speeds up deployment like :remote_cache, but filters out .svn directory which are a security risk and write slowly to shared disks.
-
-== REQUIREMENTS:
+## Requirements
 
 * capistrano (http://capify.org) > 2.0.0, but recommended with > 2.2.0
 
 * NOTE: If you're using a git repository we recommend capistrano 2.5.3 and greater.
 
-== INSTALL:
+## Install
 
-  $ gem install eycap      # installs the latest eycap version
+    $ gem install eycap      # installs the latest eycap version
 
-== SOURCE:
+## Usage
+
+Your deploy.rb file is provided for you when you are setup by our engineers.  In order to deploy you'll need to do the normal capistrano steps to "capify" your site.  But you'll replace the auto-generated deploy.rb file with the one Engine Yard provides.
+
+From there you'll be able to deploy to your staged environment like so:
+
+    $ cap production deploy
+
+For a list of all available commands, run:
+
+    $ cap -T
+
+## Pull Requests
  
-eycap's git repo is available on GitHub, which can be browsed at:
- 
-  http://github.com/engineyard/eycap
-   
-and cloned from:
-   
-  git://github.com/engineyard/eycap.git
+If you'd like to contribute to the eycap gem please create a fork, then send a pull request and a member of the eycap team will review it.
 
-== USAGE:
+## Issues
 
-=== Include in capistrano
+When you run into a problem please check the issues to see if one has been reported.  If not, please report the issue and we'll get to work on fixing it. 
 
-In your deploy.rb, simply include this line at the top:
+## License
 
-require 'eycap/recipes'
-
-=== Filtered remote cache
-
-To use filtered_remote_cache, simply:
-
-set :deploy_via, :filtered_remote_cache
-
-== LICENSE:
-
-Copyright (c) 2008-2011 Engine Yard
+Copyright (c) 2008-2012 Engine Yard
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
