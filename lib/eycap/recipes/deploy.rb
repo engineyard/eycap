@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), "..", "lib", "ey_logger.rb")
 Capistrano::Configuration.instance(:must_exist).load do
   
   namespace :deploy do    
-    # This is here to hook into the logger for deploy and deploy:long tasks
+    # This is here to hook into the logger for deployment tasks
     ["deploy", "deploy:long", "deploy:migrations", "deploy:migrate", "deploy:update_code"].each do |tsk|
       before(tsk) do
         Capistrano::EYLogger.setup( self, tsk )
