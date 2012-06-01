@@ -1,3 +1,9 @@
+== 0.5.23 / 2012-05-31
+  * Changed README to markdown format.
+  * Improved README to give instructions on general setup and usage.
+  * Refactored default bundle install behavior, adding :no_bundle flag.
+  * Merged pull request #32 - log more deploy commands.
+
 == 0.5.22 / 2011-12-02
 	* merged pull request #28 - only perform the bundler.bundle_gems task on app servers that handle releases
 	* merged pull request #30 - fix for race condition where binstubs is on an NFS volume
