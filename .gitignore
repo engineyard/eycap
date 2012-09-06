@@ -1,3 +1,4 @@
 pkg
 *.gem
 .rbenv-version
+.DS_Store
