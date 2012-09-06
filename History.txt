@@ -1,3 +1,7 @@
+== 0.6.0 / 2012-09-06
+  * Bundler and a clean gemspec now manage the release of eycap.
+  * Use the :bundle_without to optionally specify groups more than 'test and development' only.
+
 == 0.5.23 / 2012-05-31
   * Changed README to markdown format.
   * Improved README to give instructions on general setup and usage.
