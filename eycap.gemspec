@@ -16,5 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = Eycap::VERSION
 
   gem.add_dependency "capistrano", ">= 2.2.0"
+
+  gem.add_development_dependency "rake"
 end
 
