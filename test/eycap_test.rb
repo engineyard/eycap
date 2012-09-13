@@ -1,11 +1,15 @@
-require File.dirname(__FILE__) + '/test_helper.rb'
+require 'minitest_helper'
 
-class TestEycap < Test::Unit::TestCase
+class TestEycap < MiniTest::Unit::TestCase
 
-  def setup
+  describe "first test" do
+    Capistrano::Configuration.instance = Capistrano::Configuration.new
+    load_capistrano_recipe(Capistrano::Recipes::Default)
+
+    it 'loads the specified recipe into the instance configuration' do
+      Capistrano::Configuration.instance.must_have_task "default"
+    end
+    
   end
-  
-  def test_truth
-    assert true
-  end
+
 end

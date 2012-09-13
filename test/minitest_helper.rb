@@ -1,6 +1,10 @@
 # Let's include the eycap gem.
-
-require File.dirname(__FILE__) + '/../lib/eycap'
+# FIXME: when you uncomment the require to bring in eycap it starts to error:
+#
+# capistrano/lib/capistrano/configuration/loading.rb:18:
+# in `instance': Please require this file from within a Capistrano recipe (LoadError)
+#
+# require File.dirname(__FILE__) + '/../lib/eycap'
 
 # This is a short and sweet way to bootstrap minitest.
 # It also lets them keep it under a "service" if they want to make changes to
@@ -13,3 +17,11 @@ require 'minitest/autorun'
 # to test capistrano recipes.
 
 require 'minitest-capistrano'
+
+# Let's add capistrano, since that's what we need to deploy.
+
+require 'capistrano'
+
+# Load a default fixture capistrano object.
+
+require File.expand_path(File.join(File.dirname(__FILE__), 'fixtures','recipes','default'))
