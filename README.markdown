@@ -1,4 +1,5 @@
-# eycap
+# eycap [![Build Status](https://secure.travis-ci.org/engineyard/eycap.png)](http://travis-ci.org/engineyard/eycap)
+
 
 ## Description
 
