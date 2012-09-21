@@ -48,7 +48,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     Deploys app gracefully with USR2 and unicorn.rb combo
     DESC
     task :deploy, :roles => [:app], :except => {:unicorn => false} do
-      sudo "/engineyard/bin/unicorn #{application} deploy"
+      run "/engineyard/bin/unicorn #{application} deploy"
     end
   end
 end

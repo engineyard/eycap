@@ -1,3 +1,7 @@
+== 0.6.2 / 2012-09-21
+  * Added minitest framework.
+  * Change deploy user task in unicorn recipe from sudo to run.
+
 == 0.6.1 / 2012-09-06
   * The Yes We Can patch, which maintains backwards compatibility for the eycap require statement.
 
