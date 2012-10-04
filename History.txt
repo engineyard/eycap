@@ -1,3 +1,6 @@
+== 0.6.4 / 2012-10-04
+  * Fix the incorrect pluralization of "eycap/recipes" file because eycap would not include itself anymore.
+
 == 0.6.3 / 2012-09-21
   * Changing all /engineyard/bin/unicorn tasks in unicorn recipe to run.
 
