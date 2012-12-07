@@ -42,12 +42,12 @@ Capistrano::Configuration.instance(:must_exist).load do
   namespace :thinking_sphinx do
     desc "After update_code you want to configure, then reindex"
     task :configure, :roles => [:app], :only => {:sphinx => true}, :except => {:no_release => true} do
-      run "/engineyard/bin/thinking_sphinx_searchd #{application} configure"
+      run "/engineyard/bin/thinking_sphinx_searchd #{application} configure #{rails_env}"
     end
 
     desc "After configure you want to reindex"
     task :reindex, :roles => [:app], :only => {:sphinx => true} do
-      run "/engineyard/bin/thinking_sphinx_searchd #{application} reindex"
+      run "/engineyard/bin/thinking_sphinx_searchd #{application} reindex #{rails_env}"
     end
 
     task :symlink, :roles => [:app], :only => {:sphinx => true}, :except => {:no_release => true} do
