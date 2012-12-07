@@ -2,7 +2,7 @@
 require File.expand_path('../lib/eycap/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Engine Yard", "Tyler Bird"]
+  gem.authors       = ["Engine Yard", "Tyler Bird", "Matt Dolian", "Christopher Rigor", "Mike Riley", "Joel Watson", "Corey Donohoe", "Mutwin Kraus", "Erik Jones", "Daniel Neighman", "Dylan Egan", "Dan Peterson", "Tim Carey-Smith"]
   gem.email         = ["appsupport@engineyard.com"]
   gem.description   = %q{Capistrano recipes for the Engine Yard Managed platform.}
   gem.summary       = %q{Recipes that help automate the processes of the Engine Yard stack for users of the Managed platform.}
