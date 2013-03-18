@@ -5,7 +5,7 @@ set :bundle_without, "test development" unless exists?(:bundle_without)
   namespace :bundler do
     desc "Automatically installed your bundled gems if a Gemfile exists"
     task :bundle_gems, :roles => :app, :except => {:no_bundle => true} do
-      parallel(options) do |session|
+      parallel do |session|
         rvm_role = fetch(:rvm_require_role,"rvm")
         session.when "in?(:#{rvm_role})", <<-SHELL.split("\n").map(&:strip).join("; ")
           if [ -f #{release_path}/Gemfile ]
