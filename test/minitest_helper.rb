@@ -11,17 +11,17 @@
 # the <tt>autorun</tt> method.
 # https://github.com/seattlerb/minitest/blob/master/lib/minitest/autorun.rb
 
+require 'rubygems'
+require 'bundler/setup'
+
 require 'minitest/autorun'
 
 # This library has assertions and expectations already written that can help
 # to test capistrano recipes.
-
 require 'minitest-capistrano'
 
 # Let's add capistrano, since that's what we need to deploy.
-
 require 'capistrano'
 
 # Load a default fixture capistrano object.
-
-require File.expand_path(File.join(File.dirname(__FILE__), 'fixtures','recipes','default'))
+require 'fixtures/recipes/default'
