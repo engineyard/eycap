@@ -7,7 +7,7 @@ set :bundle_without, "test development" unless exists?(:bundle_without)
     task :bundle_gems, :roles => :app, :except => {:no_bundle => true} do
       parallel do |session|
         rvm_role = fetch(:rvm_require_role,"rvm")
-        session.when "in?(:#{rvm_role})", <<-SHELL.split("\n").map(&:strip).join("; ")
+        session.when "in?(:#{rvm_role})", command_with_shell(<<-SHELL.split("\n").map(&:strip).join("; "), fetch(:rvm_shell))
           if [ -f #{release_path}/Gemfile ]
           then cd #{release_path} && bundle install --without=#{bundle_without} --system
           fi
