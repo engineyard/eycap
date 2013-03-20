@@ -10,7 +10,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       fi
     DESC
     task :create_wrappers, :roles => fetch(:rvm_require_role,"rvm") do
-      run "rvm alias create #{application} #{rvm_ruby_string}"
+      run "rvm alias create #{application} #{fetch(:rvm_ruby_string,nil)}"
       run "rvm wrapper #{application} --no-links --all" # works with 'rvm 1.19+'
     end
 
