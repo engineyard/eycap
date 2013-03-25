@@ -1,3 +1,8 @@
+== 0.6.7 / 2013-03-25
+  * follow up to #37, pull #40 works to ensure rvm and non-rvm work properly - Michal Papis.
+  * #39 Joe does some good house cleaning, thanks!
+  * and a Delayed Job tweak by Kevin on #41, thank you.
+
 == 0.6.6 / 2013-03-15
   * adding rvm support to eycap #37 - thank you Michal Papis!
 
