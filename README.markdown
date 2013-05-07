@@ -33,13 +33,13 @@ To ensure your environments are ready to deploy, check on staging.
 
 This will determine if all requirements are met to deploy.  Sometimes if the default folders are not setup you may be able to repair by running:
 
-	$ cap staging deploy:setup
+    $ cap staging deploy:setup
 
 If you cannot get `deploy:check` to pass, please open a [new support ticket](https://support.cloud.engineyard.com/tickets/new) and let us know.
 
 Now you're ready to do a test deploy.
 
-Optionally, `cap deploy:cold` will run your migrations and start (instead of restart) your app server.  
+Optionally, `cap deploy:cold` will run your migrations and start (instead of restart) your app server.
 
     $ cap staging deploy:cold
 
@@ -57,15 +57,24 @@ For a list of all available commands, run:
 
     $ cap -T
 
-This will show you not only the default capistrano commands but also the ones you get by including the eycap gem.    
+This will show you not only the default capistrano commands but also the ones you get by including the eycap gem.
+
+## Custom binaries path
+
+In rare cases (`unicorn` / `sphinx`) it is required to set custom path for binaries when using
+development versions of scripts. It is as easy as:
+
+    $ set :engineyard_bin, "/engineyard/custom"
+
+The default is `/engineyard/bin` and is just fine in normal deployment.
 
 ## Pull Requests
- 
+
 If you'd like to contribute to the eycap gem please create a fork, then send a pull request and a member of the eycap team will review it.
 
 ## Issues
 
-When you run into a problem please check the [issues](/issues) to see if one has been reported.  If not, please report the issue and we'll get to work on fixing it. 
+When you run into a problem please check the [issues](/issues) to see if one has been reported.  If not, please report the issue and we'll get to work on fixing it.
 ## License
 
 Copyright (c) 2008-2012 Engine Yard
