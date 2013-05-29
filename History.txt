@@ -1,3 +1,8 @@
+== 0.6.8 / 2013-05-29
+  * #42 allow custom path for ey binaries - Michal Papis.
+  * Added bundle_config task for bundler - Tyler Bird.
+  * Change default output of bundle install to --quiet for speed increase - Tyler Bird.
+
 == 0.6.7 / 2013-03-25
   * follow up to #37, pull #40 works to ensure rvm and non-rvm work properly - Michal Papis.
   * #39 Joe does some good house cleaning, thanks!
