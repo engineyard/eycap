@@ -3,12 +3,12 @@ Capistrano::Configuration.instance(:must_exist).load do
   namespace :sphinx do
     desc "After update_code you want to configure, then reindex"
     task :configure, :roles => [:app], :only => {:sphinx => true}, :except => {:no_release => true} do
-      run "/engineyard/bin/searchd #{application} configure"
+      run "#{fetch(:engineyard_bin, "/engineyard/bin")}/searchd #{application} configure"
     end
 
     desc "After configure you want to reindex"
     task :reindex, :roles => [:app], :only => {:sphinx => true} do
-      run "/engineyard/bin/searchd #{application} reindex"
+      run "#{fetch(:engineyard_bin, "/engineyard/bin")}/searchd #{application} reindex"
     end
 
     desc "Start Sphinx Searchd"
@@ -29,25 +29,25 @@ Capistrano::Configuration.instance(:must_exist).load do
     task :symlink, :roles => [:app], :only => {:sphinx => true}, :except => {:no_release => true} do
       run "if [ -d #{latest_release}/config/ultrasphinx ]; then mv #{latest_release}/config/ultrasphinx #{latest_release}/config/ultrasphinx.bak; fi"
       run "ln -nfs #{shared_path}/config/ultrasphinx #{latest_release}/config/ultrasphinx"
-    end  
+    end
   end
 
   namespace :acts_as_sphinx do
     desc "After update_code you to to reindex"
     task :reindex, :roles => [:app], :only => {:sphinx => true} do
-      run "/engineyard/bin/acts_as_sphinx_searchd #{application} reindex"
+      run "#{fetch(:engineyard_bin, "/engineyard/bin")}/acts_as_sphinx_searchd #{application} reindex"
     end
   end
 
   namespace :thinking_sphinx do
     desc "After update_code you want to configure, then reindex"
     task :configure, :roles => [:app], :only => {:sphinx => true}, :except => {:no_release => true} do
-      run "/engineyard/bin/thinking_sphinx_searchd #{application} configure #{rails_env}"
+      run "#{fetch(:engineyard_bin, "/engineyard/bin")}/thinking_sphinx_searchd #{application} configure #{rails_env}"
     end
 
     desc "After configure you want to reindex"
     task :reindex, :roles => [:app], :only => {:sphinx => true} do
-      run "/engineyard/bin/thinking_sphinx_searchd #{application} reindex #{rails_env}"
+      run "#{fetch(:engineyard_bin, "/engineyard/bin")}/thinking_sphinx_searchd #{application} reindex #{rails_env}"
     end
 
     task :symlink, :roles => [:app], :only => {:sphinx => true}, :except => {:no_release => true} do
@@ -60,17 +60,17 @@ Capistrano::Configuration.instance(:must_exist).load do
   namespace :ultrasphinx do
     desc "After update_code you want to configure, then reindex"
     task :configure, :roles => [:app], :only => {:sphinx => true}, :except => {:no_release => true} do
-      run "/engineyard/bin/ultrasphinx_searchd #{application} configure"
+      run "#{fetch(:engineyard_bin, "/engineyard/bin")}/ultrasphinx_searchd #{application} configure"
     end
 
     desc "After configure you want to reindex"
     task :reindex, :roles => [:app], :only => {:sphinx => true} do
-      run "/engineyard/bin/ultrasphinx_searchd #{application} reindex"
-    end   
+      run "#{fetch(:engineyard_bin, "/engineyard/bin")}/ultrasphinx_searchd #{application} reindex"
+    end
 
     task :symlink, :roles => [:app], :only => {:sphinx => true}, :except => {:no_release => true} do
       run "if [ -d #{latest_release}/config/ultrasphinx ]; then mv #{latest_release}/config/ultrasphinx #{latest_release}/config/ultrasphinx.bak; fi"
       run "ln -nfs #{shared_path}/config/ultrasphinx #{latest_release}/config/ultrasphinx"
-    end    
+    end
   end
 end
