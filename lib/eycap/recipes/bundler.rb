@@ -21,7 +21,7 @@ set :bundle_without, "test development" unless exists?(:bundle_without)
       SHELL
       run_rvm_or only_with_rvm, only_without_rvm
     end
-    task :bundle_config, :roles => :app, :only => {:no_bundle => true} do
+    task :bundle_config, :roles => :app, :only => {:no_bundle => true}, :on_no_matching_servers => :continue do
       run_rvm_or "true", <<-SHELL
         bundle config --local BIN /data/#{application}/releases/#{release_path}/bin
         bundle config --local PATH /data/#{application}/shared/bundled_gems
