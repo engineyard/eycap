@@ -1,3 +1,6 @@
+== 0.6.9 / 2013-05-29
+  * #43 eycap v0.6.8 fails to detect rvm gem path with rvm-capistrano - Michal Papis.
+
 == 0.6.8 / 2013-05-29
   * #42 allow custom path for ey binaries - Michal Papis.
   * Added bundle_config task for bundler - Tyler Bird.
