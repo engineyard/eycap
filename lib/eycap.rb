@@ -1,5 +1,6 @@
 require 'eycap/lib/ey_logger'
 require 'eycap/lib/ey_logger_hooks'
+require 'eycap/lib/rvm_helper'
 require 'eycap/recipes/apache'
 require 'eycap/recipes/backgroundrb'
 require 'eycap/recipes/bundler'
