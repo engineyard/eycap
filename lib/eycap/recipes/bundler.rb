@@ -21,16 +21,10 @@ set :bundle_without, "test development" unless exists?(:bundle_without)
       SHELL
       run_rvm_or only_with_rvm, only_without_rvm
     end
-    task :bundle_config, :roles => :app, :only => {:no_bundle => true}, :on_no_matching_servers => :continue do
-      run_rvm_or "true", <<-SHELL
-        cd #{release_path}
-        bundle config --local BIN #{release_path}/bin
-        bundle config --local PATH /data/#{application}/shared/bundled_gems
-        bundle config --local DISABLE_SHARED_GEMS "1"
-        bundle config --local WITHOUT test:development
-      SHELL
+    task :symlink_bundle_config, :roles => :app do
+      run_rvm_or "true", "mkdir -p #{shared_path}/bundle && ln -sf #{shared_path}/bundle #{release_path}/.bundle"
     end
+    before "bundler:bundle_gems","bundler:symlink_bundle_config"
     after "deploy:symlink_configs","bundler:bundle_gems"
-    after "bundler:bundle_gems","bundler:bundle_config"
   end
 end
