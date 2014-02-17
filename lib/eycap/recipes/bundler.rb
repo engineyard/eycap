@@ -7,13 +7,13 @@ set :bundle_without, "test development" unless exists?(:bundle_without)
     task :bundle_gems, :roles => :app, :except => {:no_bundle => true} do
       only_with_rvm = <<-SHELL
         if [ -f #{release_path}/Gemfile ]
-        then cd #{release_path} && bundle install --without=#{bundle_without} --system --deployment
+        then cd #{release_path} && bundle install --without=#{bundle_without} --system
         fi
       SHELL
       only_without_rvm = <<-SHELL
         mkdir -p #{shared_path}/bundled_gems
         if [ -f #{release_path}/Gemfile ]
-        then cd #{release_path} && bundle install --without=#{bundle_without} --binstubs #{release_path}/bin --path #{shared_path}/bundled_gems --quiet --deployment
+        then cd #{release_path} && bundle install --without=#{bundle_without} --binstubs #{release_path}/bin --path #{shared_path}/bundled_gems --quiet  --deployment
         fi
         if [ ! -h #{release_path}/bin ]
         then ln -nfs #{release_path}/bin #{release_path}/ey_bundler_binstubs
