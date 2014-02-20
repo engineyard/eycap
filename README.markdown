@@ -77,7 +77,7 @@ If you'd like to contribute to the eycap gem please create a fork, then send a p
 When you run into a problem please check the [issues](/issues) to see if one has been reported.  If not, please report the issue and we'll get to work on fixing it.
 ## License
 
-Copyright (c) 2008-2012 Engine Yard
+Copyright (c) Engine Yard
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
