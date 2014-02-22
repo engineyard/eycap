@@ -23,7 +23,8 @@ set :bundle_without, "test development" unless exists?(:bundle_without)
     end
     task :bundle_config, :roles => :app, :only => {:no_bundle => true}, :on_no_matching_servers => :continue do
       run_rvm_or "true", <<-SHELL
-        bundle config --local BIN /data/#{application}/releases/#{release_path}/bin
+        cd #{release_path}
+        bundle config --local BIN #{release_path}/bin
         bundle config --local PATH /data/#{application}/shared/bundled_gems
         bundle config --local DISABLE_SHARED_GEMS "1"
         bundle config --local WITHOUT test:development
