@@ -1,3 +1,6 @@
+== 0.6.11/ 2014-02-21
+  * #46 Fix path issue in bundle_config - krutten.  
+
 == 0.6.10 / 2014-02-20
   * #45 Bundler will sometimes try and verify the dependancy tree - jcstringer.  
   * This adds the ``--deployment`` flag to the ``bundle`` command.
