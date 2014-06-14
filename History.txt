@@ -1,3 +1,6 @@
+== 0.6.12/ 2014-06-14
+  * #44 Share the bundle config instead of creating it on multiple slices - dholdren
+
 == 0.6.11/ 2014-02-21
   * #46 Fix path issue in bundle_config - krutten.  
 
