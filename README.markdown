@@ -34,6 +34,8 @@ require "eycap/recipes"
 
 ## Usage
 
+### Configuration
+
 Your initial deploy.rb will be provided for you when your servers are provisioned on Engine Yard Managed.  In order to deploy your application, you can go to the `RAILS_ROOT` folder and run:
 
     $ capify .
@@ -41,6 +43,37 @@ Your initial deploy.rb will be provided for you when your servers are provisione
 This generates the `Capfile` and the `config/deploy.rb` file for you.  You'll replace the `config/deploy.rb` file with the `deploy.rb` given to you by Engine Yard.
 
 For deploying Rails 3.1 or greater apps using the [asset pipeline](https://github.com/engineyard/eycap/wiki/Asset-Pipeline) read more on the linked page.
+
+### Setup restart server
+
+Mongrel is the default server, to override this default you'll need to define the following in your `deploy.rb` file:
+
+```ruby
+namespace :deploy do
+
+  task :restart, :roles => :app do
+    # mongrel.restart
+  end
+
+
+  task :spinner, :roles => :app do
+    # mongrel.start
+  end
+
+
+  task :start, :roles => :app do
+    # mongrel.start
+  end    
+  
+
+  task :stop, :roles => :app do
+    # mongrel.stop
+  end
+  
+end
+```
+
+Replace the commented out with your server (passenger, unicorn, thin, puma, etc.) and then it will override the default of mongrel.
 
 ### Deploying to Environment
 
