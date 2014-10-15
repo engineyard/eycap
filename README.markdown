@@ -1,6 +1,5 @@
 # eycap [![Build Status](https://secure.travis-ci.org/engineyard/eycap.png)](http://travis-ci.org/engineyard/eycap)
 
-
 ## Description
 
 The Engine Yard capistrano tasks are for use specifically with Engine Yard Managed services.  But can be used as examples for building other tasks as well.
@@ -13,7 +12,25 @@ The Engine Yard capistrano tasks are for use specifically with Engine Yard Manag
 
 ## Install
 
-    $ gem install eycap
+Use your `Gemfile` and `bundler` to both document and install the `eycap` gem to your application.  We also recommend the following gems to be configured along side `eycap`.  Add these to your `Gemfile`:
+
+```ruby
+group :development, :test do
+  gem 'eycap', :require => :false
+  gem 'capistrano', '~> 2.15'
+  gem 'net-ssh', '~> 2.7.0'
+end
+```
+
+Then run bundle install to install the `eycap` and other gem(s).
+
+    $ bundle install
+
+Then in your `deploy.rb` file you'll need to add the following require statement to the begininng of the file:
+
+```
+require "eycap/recipes"
+```
 
 ## Usage
 
@@ -64,7 +81,9 @@ This will show you not only the default capistrano commands but also the ones yo
 In rare cases (`unicorn` / `sphinx`) it is required to set custom path for binaries when using
 development versions of scripts. It is as easy as:
 
-    $ set :engineyard_bin, "/engineyard/custom"
+```ruby
+set :engineyard_bin, "/engineyard/custom"
+```
 
 The default is `/engineyard/bin` and is just fine in normal deployment.
 
@@ -75,6 +94,7 @@ If you'd like to contribute to the eycap gem please create a fork, then send a p
 ## Issues
 
 When you run into a problem please check the [issues](/issues) to see if one has been reported.  If not, please report the issue and we'll get to work on fixing it.
+
 ## License
 
 Copyright (c) Engine Yard
