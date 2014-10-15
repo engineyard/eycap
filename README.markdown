@@ -16,7 +16,7 @@ Use your `Gemfile` and `bundler` to both document and install the `eycap` gem to
 
 ```ruby
 group :development, :test do
-  gem 'eycap', :require => :false
+  gem 'eycap', :require => false
   gem 'capistrano', '~> 2.15'
   gem 'net-ssh', '~> 2.7.0'
 end
